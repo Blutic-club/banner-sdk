@@ -88,7 +88,7 @@ const CookieBanner = () => {
           : cat;
       }),
       cookies: rawBannerData.cookies
-        .filter(cookie => !cookie.isDeleted)
+        .filter((cookie) => !cookie.isDeleted)
         .map((cookie) => {
           const translatedCookie = translation.translatedData.cookies.find(
             (tc) => tc._id === cookie._id

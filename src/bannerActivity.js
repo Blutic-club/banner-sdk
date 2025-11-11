@@ -179,7 +179,7 @@ async function setBanenrShown() {
     }
 
     const interactionId = generateInteractionId();
-    const shownTimestamp = setBannerShownTimestamp();
+    setBannerShownTimestamp();
     const trackingData = {
       interactionId,
       browserId,
@@ -201,12 +201,15 @@ async function trackInteraction(status, data) {
     }
 
     const interactionId = generateInteractionId();
+    // Convert category IDs to English names for backend
+    const convertedData = convertCategoryIdsToEnglishNames(data);
+
     let trackingData = {
       interactionId,
       browserId,
       domainId,
       interactionType: status,
-      selectedCategories: data,
+      selectedCategories: convertedData,
     };
 
     // Add interaction time only for accept/reject actions
@@ -226,6 +229,9 @@ async function trackInteraction(status, data) {
 
 // Enhanced Google Consent Mode v2 mapping
 function mapConsentToGoogleConsentMode(cookieSettings) {
+  // Convert category IDs to English names first
+  const convertedSettings = convertCategoryIdsToEnglishNames(cookieSettings);
+
   // Default denied (GDPR/most global laws require explicit consent)
   const consentParams = {
     ad_storage: "denied",
@@ -236,7 +242,7 @@ function mapConsentToGoogleConsentMode(cookieSettings) {
   };
 
   // Map categories to consent mode parameters
-  Object.entries(cookieSettings).forEach(([categoryKey, isAccepted]) => {
+  Object.entries(convertedSettings).forEach(([categoryKey, isAccepted]) => {
     if (isAccepted && CONSENT_MODE_MAPPING[categoryKey]) {
       CONSENT_MODE_MAPPING[categoryKey].forEach((consentParam) => {
         consentParams[consentParam] = "granted";
@@ -456,9 +462,26 @@ async function fetchBannerConfig() {
   console.error("Domain not found");
 }
 
+// Convert category IDs to English lowercase names for backend compatibility
+function convertCategoryIdsToEnglishNames(cookieSettings) {
+  const convertedSettings = {};
+  for (const [categoryId, value] of Object.entries(cookieSettings)) {
+    const englishName = globalCategoryIdToEnglishName[categoryId];
+    if (englishName) {
+      convertedSettings[englishName] = value;
+    } else {
+      // Fallback: if no mapping found, use the key as-is (backward compatibility)
+      convertedSettings[categoryId] = value;
+    }
+  }
+  return convertedSettings;
+}
+
 // Enhanced consent tracking functions
 async function trackConsentAction(status, cookieSettings) {
-  return await trackConsentActionWithGTM(status, cookieSettings);
+  // Convert category IDs to English names before sending to backend
+  const convertedSettings = convertCategoryIdsToEnglishNames(cookieSettings);
+  return await trackConsentActionWithGTM(status, convertedSettings);
 }
 
 // Main initialization function
@@ -483,9 +506,13 @@ async function initializeCookieBannerSDK() {
   }
 }
 
+// Store global mapping of category IDs to English names for backend compatibility
+let globalCategoryIdToEnglishName = {};
+
 function parseBannerApiData(bannerData) {
   // Group cookies by category id
   const cookiesByCategory = {};
+
   for (const category of bannerData.categories) {
     cookiesByCategory[category._id] = {
       title: category.name,
@@ -493,10 +520,18 @@ function parseBannerApiData(bannerData) {
       cookies: [],
       isAlwaysActive: category.isAlwaysActive,
     };
+
+    // Store the mapping of category ID to English name (only on first/English parse)
+    // This ensures we always have the original English names for the backend
+    if (!globalCategoryIdToEnglishName[category._id]) {
+      globalCategoryIdToEnglishName[category._id] = category.name.toLowerCase();
+    }
   }
 
   // Filter out deleted cookies and place each cookie in its category
-  const activeCookies = bannerData.cookies.filter(cookie => !cookie.isDeleted);
+  const activeCookies = bannerData.cookies.filter(
+    (cookie) => !cookie.isDeleted
+  );
   for (const cookie of activeCookies) {
     const cat = cookiesByCategory[cookie.category];
     if (cat) {
@@ -509,12 +544,13 @@ function parseBannerApiData(bannerData) {
   }
 
   // Convert to array or object as needed by your component
-  // Here, let's keep it as an object keyed by category name for easy access
+  // Use category ID as key to ensure consistency across language changes
   const cookieData = {};
   for (const catId in cookiesByCategory) {
     const cat = cookiesByCategory[catId];
     if (cat.cookies.length > 0) {
-      cookieData[cat.title.toLowerCase()] = {
+      // Use the category ID as the key instead of translated name
+      cookieData[catId] = {
         title: cat.title,
         description: cat.description,
         cookies: cat.cookies,
