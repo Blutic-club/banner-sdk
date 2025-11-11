@@ -18,6 +18,150 @@ import {
   LANGUAGE_NAMES,
 } from "./bannerActivity";
 
+// Static text translations
+const STATIC_TEXTS = {
+  [Languages.ENGLISH]: {
+    changeConsent: "Change your Consent",
+    withdrawConsent: "Withdraw your Consent",
+    consentTab: "Consent",
+    aboutTab: "About Cookies",
+    managePreferences: "Manage Consent preferences",
+    privacyPolicy: "Privacy Policy",
+    whatAreCookies: "What are cookies?",
+    cookieName: "Cookie Name",
+    duration: "Duration",
+    description: "Description",
+    aboutCookiesTitle: "What are cookies?",
+    aboutCookiesPara1:
+      "Cookies are small text files that can be used by websites to make a user's experience more efficient.",
+    aboutCookiesPara2:
+      "The law states that we can store cookies on your device if they are strictly necessary for the operation of this site. For all other types of cookies we need your permission. This site uses different types of cookies. Some cookies are placed by third party services that appear on our pages. You can at any time change or withdraw your consent from the Cookie Declaration on our website.",
+    aboutCookiesPara3:
+      "Learn more about who we are, how you can contact us and how we process personal data in our Privacy Policy.",
+    poweredBy: "Powered by",
+  },
+  [Languages.HINDI]: {
+    changeConsent: "अपनी सहमति बदलें",
+    withdrawConsent: "अपनी सहमति वापस लें",
+    consentTab: "सहमति",
+    aboutTab: "कुकीज़ के बारे में",
+    managePreferences: "सहमति प्राथमिकताएँ प्रबंधित करें",
+    privacyPolicy: "गोपनीयता नीति",
+    whatAreCookies: "कुकीज़ क्या हैं?",
+    cookieName: "कुकी का नाम",
+    duration: "अवधि",
+    description: "विवरण",
+    aboutCookiesTitle: "कुकीज़ क्या हैं?",
+    aboutCookiesPara1:
+      "कुकीज़ छोटी टेक्स्ट फ़ाइलें हैं जिनका उपयोग वेबसाइटों द्वारा उपयोगकर्ता के अनुभव को अधिक कुशल बनाने के लिए किया जा सकता है।",
+    aboutCookiesPara2:
+      "कानून कहता है कि हम आपके डिवाइस पर कुकीज़ स्टोर कर सकते हैं यदि वे इस साइट के संचालन के लिए सख्ती से आवश्यक हैं। अन्य सभी प्रकार की कुकीज़ के लिए हमें आपकी अनुमति चाहिए। यह साइट विभिन्न प्रकार की कुकीज़ का उपयोग करती है। कुछ कुकीज़ तीसरे पक्ष की सेवाओं द्वारा रखी जाती हैं जो हमारे पृष्ठों पर दिखाई देती हैं। आप किसी भी समय हमारी वेबसाइट पर कुकी घोषणा से अपनी सहमति बदल सकते हैं या वापस ले सकते हैं।",
+    aboutCookiesPara3:
+      "हमारी गोपनीयता नीति में हम कौन हैं, आप हमसे कैसे संपर्क कर सकते हैं और हम व्यक्तिगत डेटा को कैसे संसाधित करते हैं, इसके बारे में अधिक जानें।",
+    poweredBy: "द्वारा संचालित",
+  },
+  [Languages.KANNADA]: {
+    changeConsent: "ನಿಮ್ಮ ಸಮ್ಮತಿಯನ್ನು ಬದಲಾಯಿಸಿ",
+    withdrawConsent: "ನಿಮ್ಮ ಸಮ್ಮತಿಯನ್ನು ಹಿಂತೆಗೆದುಕೊಳ್ಳಿ",
+    consentTab: "ಸಮ್ಮತಿ",
+    aboutTab: "ಕುಕೀಗಳ ಬಗ್ಗೆ",
+    managePreferences: "ಸಮ್ಮತಿ ಆದ್ಯತೆಗಳನ್ನು ನಿರ್ವಹಿಸಿ",
+    privacyPolicy: "ಗೌಪ್ಯತಾ ನೀತಿ",
+    whatAreCookies: "ಕುಕೀಗಳು ಏನು?",
+    cookieName: "ಕುಕೀ ಹೆಸರು",
+    duration: "ಅವಧಿ",
+    description: "ವಿವರಣೆ",
+    aboutCookiesTitle: "ಕುಕೀಗಳು ಏನು?",
+    aboutCookiesPara1:
+      "ಕುಕೀಗಳು ಸಣ್ಣ ಪಠ್ಯ ಫೈಲ್‌ಗಳಾಗಿದ್ದು, ಬಳಕೆದಾರರ ಅನುಭವವನ್ನು ಹೆಚ್ಚು ಪರಿಣಾಮಕಾರಿಯಾಗಿ ಮಾಡಲು ವೆಬ್‌ಸೈಟ್‌ಗಳು ಬಳಸಬಹುದು.",
+    aboutCookiesPara2:
+      "ಈ ಸೈಟ್‌ನ ಕಾರ್ಯಾಚರಣೆಗೆ ಅವು ಕಟ್ಟುನಿಟ್ಟಾಗಿ ಅಗತ್ಯವಿದ್ದರೆ ನಾವು ನಿಮ್ಮ ಸಾಧನದಲ್ಲಿ ಕುಕೀಗಳನ್ನು ಸಂಗ್ರಹಿಸಬಹುದು ಎಂದು ಕಾನೂನು ಹೇಳುತ್ತದೆ. ಎಲ್ಲಾ ಇತರ ರೀತಿಯ ಕುಕೀಗಳಿಗೆ ನಮಗೆ ನಿಮ್ಮ ಅನುಮತಿ ಬೇಕು. ಈ ಸೈಟ್ ವಿವಿಧ ರೀತಿಯ ಕುಕೀಗಳನ್ನು ಬಳಸುತ್ತದೆ. ಕೆಲವು ಕುಕೀಗಳನ್ನು ನಮ್ಮ ಪುಟಗಳಲ್ಲಿ ಕಾಣಿಸಿಕೊಳ್ಳುವ ಮೂರನೇ ವ್ಯಕ್ತಿಯ ಸೇವೆಗಳು ಇರಿಸುತ್ತವೆ. ನಮ್ಮ ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲಿ ಕುಕೀ ಘೋಷಣೆಯಿಂದ ನೀವು ಯಾವುದೇ ಸಮಯದಲ್ಲಿ ನಿಮ್ಮ ಸಮ್ಮತಿಯನ್ನು ಬದಲಾಯಿಸಬಹುದು ಅಥವಾ ಹಿಂತೆಗೆದುಕೊಳ್ಳಬಹುದು.",
+    aboutCookiesPara3:
+      "ನಾವು ಯಾರು, ನೀವು ನಮ್ಮನ್ನು ಹೇಗೆ ಸಂಪರ್ಕಿಸಬಹುದು ಮತ್ತು ನಮ್ಮ ಗೌಪ್ಯತಾ ನೀತಿಯಲ್ಲಿ ನಾವು ವೈಯಕ್ತಿಕ ಡೇಟಾವನ್ನು ಹೇಗೆ ಪ್ರಕ್ರಿಯೆಗೊಳಿಸುತ್ತೇವೆ ಎಂಬುದರ ಕುರಿತು ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ.",
+    poweredBy: "ಇವರಿಂದ ಚಾಲಿತ",
+  },
+  [Languages.TAMIL]: {
+    changeConsent: "உங்கள் ஒப்புதலை மாற்றவும்",
+    withdrawConsent: "உங்கள் ஒப்புதலை திரும்பப் பெறவும்",
+    consentTab: "ஒப்புதல்",
+    aboutTab: "குக்கீகள் பற்றி",
+    managePreferences: "ஒப்புதல் விருப்பங்களை நிர்வகிக்கவும்",
+    privacyPolicy: "தனியுரிமைக் கொள்கை",
+    whatAreCookies: "குக்கீகள் என்றால் என்ன?",
+    cookieName: "குக்கீ பெயர்",
+    duration: "காலம்",
+    description: "விளக்கம்",
+    aboutCookiesTitle: "குக்கீகள் என்றால் என்ன?",
+    aboutCookiesPara1:
+      "குக்கீகள் சிறிய உரை கோப்புகள் ஆகும், அவை பயனரின் அனுபவத்தை மிகவும் திறமையாக்க இணையதளங்களால் பயன்படுத்தப்படலாம்.",
+    aboutCookiesPara2:
+      "இந்த தளத்தின் செயல்பாட்டிற்கு கண்டிப்பாக அவசியமானால் உங்கள் சாதனத்தில் குக்கீகளை நாங்கள் சேமிக்கலாம் என்று சட்டம் கூறுகிறது. மற்ற எல்லா வகையான குக்கீகளுக்கும் உங்கள் அனுமதி தேவை. இந்த தளம் பல்வேறு வகையான குக்கீகளைப் பயன்படுத்துகிறது. சில குக்கீகள் எங்கள் பக்கங்களில் தோன்றும் மூன்றாம் தரப்பு சேவைகளால் வைக்கப்படுகின்றன. எங்கள் இணையதளத்தில் குக்கீ பிரகடனத்திலிருந்து எந்த நேரத்திலும் உங்கள் ஒப்புதலை மாற்றலாம் அல்லது திரும்பப் பெறலாம்.",
+    aboutCookiesPara3:
+      "நாங்கள் யார், நீங்கள் எங்களை எவ்வாறு தொடர்பு கொள்ளலாம் மற்றும் எங்கள் தனியுரிமைக் கொள்கையில் தனிப்பட்ட தரவை நாங்கள் எவ்வாறு செயலாக்குகிறோம் என்பது பற்றி மேலும் அறியவும்.",
+    poweredBy: "மூலம் இயக்கப்படுகிறது",
+  },
+  [Languages.MALAYALAM]: {
+    changeConsent: "നിങ്ങളുടെ സമ്മതം മാറ്റുക",
+    withdrawConsent: "നിങ്ങളുടെ സമ്മതം പിൻവലിക്കുക",
+    consentTab: "സമ്മതം",
+    aboutTab: "കുക്കികളെ കുറിച്ച്",
+    managePreferences: "സമ്മത മുൻഗണനകൾ നിയന്ത്രിക്കുക",
+    privacyPolicy: "സ്വകാര്യതാ നയം",
+    whatAreCookies: "കുക്കികൾ എന്താണ്?",
+    cookieName: "കുക്കി പേര്",
+    duration: "കാലാവധി",
+    description: "വിവരണം",
+    aboutCookiesTitle: "കുക്കികൾ എന്താണ്?",
+    aboutCookiesPara1:
+      "കുക്കികൾ ചെറിയ ടെക്സ്റ്റ് ഫയലുകളാണ്, അവ ഉപയോക്താവിന്റെ അനുഭവം കൂടുതൽ കാര്യക്ഷമമാക്കാൻ വെബ്സൈറ്റുകൾക്ക് ഉപയോഗിക്കാം.",
+    aboutCookiesPara2:
+      "ഈ സൈറ്റിന്റെ പ്രവർത്തനത്തിന് അവ കർശനമായി ആവശ്യമാണെങ്കിൽ നിങ്ങളുടെ ഉപകരണത്തിൽ കുക്കികൾ സംഭരിക്കാൻ കഴിയുമെന്ന് നിയമം പറയുന്നു. മറ്റെല്ലാ തരത്തിലുള്ള കുക്കികൾക്കും ഞങ്ങൾക്ക് നിങ്ങളുടെ അനുമതി ആവശ്യമാണ്. ഈ സൈറ്റ് വ്യത്യസ്ത തരത്തിലുള്ള കുക്കികൾ ഉപയോഗിക്കുന്നു. ഞങ്ങളുടെ പേജുകളിൽ ദൃശ്യമാകുന്ന മൂന്നാം കക്ഷി സേവനങ്ങളാണ് ചില കുക്കികൾ സ്ഥാപിക്കുന്നത്. ഞങ്ങളുടെ വെബ്സൈറ്റിലെ കുക്കി പ്രഖ്യാപനത്തിൽ നിന്ന് നിങ്ങൾക്ക് എപ്പോൾ വേണമെങ്കിലും നിങ്ങളുടെ സമ്മതം മാറ്റാം അല്ലെങ്കിൽ പിൻവലിക്കാം.",
+    aboutCookiesPara3:
+      "ഞങ്ങൾ ആരാണ്, നിങ്ങൾക്ക് ഞങ്ങളെ എങ്ങനെ ബന്ധപ്പെടാം, ഞങ്ങളുടെ സ്വകാര്യതാ നയത്തിൽ ഞങ്ങൾ വ്യക്തിഗത ഡാറ്റ എങ്ങനെ പ്രോസസ്സ് ചെയ്യുന്നു എന്നതിനെക്കുറിച്ച് കൂടുതലറിയുക.",
+    poweredBy: "പവർ ചെയ്തത്",
+  },
+  [Languages.MARATHI]: {
+    changeConsent: "तुमची संमती बदला",
+    withdrawConsent: "तुमची संमती मागे घ्या",
+    consentTab: "संमती",
+    aboutTab: "कुकीजबद्दल",
+    managePreferences: "संमती प्राधान्ये व्यवस्थापित करा",
+    privacyPolicy: "गोपनीयता धोरण",
+    whatAreCookies: "कुकीज म्हणजे काय?",
+    cookieName: "कुकी नाव",
+    duration: "कालावधी",
+    description: "वर्णन",
+    aboutCookiesTitle: "कुकीज म्हणजे काय?",
+    aboutCookiesPara1:
+      "कुकीज लहान मजकूर फाइल्स आहेत ज्यांचा वापर वापरकर्त्याचा अनुभव अधिक कार्यक्षम करण्यासाठी वेबसाइट्सद्वारे केला जाऊ शकतो.",
+    aboutCookiesPara2:
+      "कायदा सांगतो की या साइटच्या ऑपरेशनसाठी ते कठोरपणे आवश्यक असल्यास आम्ही तुमच्या डिव्हाइसवर कुकीज संग्रहित करू शकतो. इतर सर्व प्रकारच्या कुकीजसाठी आम्हाला तुमची परवानगी आवश्यक आहे. ही साइट विविध प्रकारच्या कुकीज वापरते. काही कुकीज आमच्या पृष्ठांवर दिसणाऱ्या तृतीय पक्ष सेवांद्वारे ठेवल्या जातात. तुम्ही कधीही आमच्या वेबसाइटवरील कुकी घोषणेतून तुमची संमती बदलू किंवा मागे घेऊ शकता.",
+    aboutCookiesPara3:
+      "आम्ही कोण आहोत, तुम्ही आमच्याशी कसे संपर्क साधू शकता आणि आम्ही आमच्या गोपनीयता धोरणात वैयक्तिक डेटावर कशी प्रक्रिया करतो याबद्दल अधिक जाणून घ्या.",
+    poweredBy: "द्वारा समर्थित",
+  },
+  [Languages.TELUGU]: {
+    changeConsent: "మీ సమ్మతిని మార్చండి",
+    withdrawConsent: "మీ సమ్మతిని ఉపసంహరించుకోండి",
+    consentTab: "సమ్మతి",
+    aboutTab: "కుకీల గురించి",
+    managePreferences: "సమ్మతి ప్రాధాన్యతలను నిర్వహించండి",
+    privacyPolicy: "గోప్యతా విధానం",
+    whatAreCookies: "కుక్కీలు ఏమిటి?",
+    cookieName: "కుకీ పేరు",
+    duration: "వ్యవధి",
+    description: "వివరణ",
+    aboutCookiesTitle: "కుక్కీలు ఏమిటి?",
+    aboutCookiesPara1:
+      "కుక్కీలు చిన్న టెక్స్ట్ ఫైల్‌లు, వాటిని వెబ్‌సైట్‌లు వినియోగదారు అనుభవాన్ని మరింత సమర్థవంతంగా చేయడానికి ఉపయోగించవచ్చు.",
+    aboutCookiesPara2:
+      "ఈ సైట్ యొక్క ఆపరేషన్ కోసం అవి ఖచ్చితంగా అవసరమైతే మేము మీ పరికరంలో కుక్కీలను నిల్వ చేయవచ్చని చట్టం పేర్కొంది. అన్ని ఇతర రకాల కుక్కీల కోసం మాకు మీ అనుమతి అవసరం. ఈ సైట్ వివిధ రకాల కుక్కీలను ఉపయోగిస్తుంది. కొన్ని కుక్కీలు మా పేజీలలో కనిపించే మూడవ పక్ష సేవల ద్వారా ఉంచబడతాయి. మీరు ఎప్పుడైనా మా వెబ్‌సైట్‌లోని కుకీ ప్రకటన నుండి మీ సమ్మతిని మార్చవచ్చు లేదా ఉపసంహరించుకోవచ్చు.",
+    aboutCookiesPara3:
+      "మేము ఎవరు, మీరు మమ్మల్ని ఎలా సంప్రదించవచ్చు మరియు మా గోప్యతా విధానంలో మేము వ్యక్తిగత డేటాను ఎలా ప్రాసెస్ చేస్తాము అనే దాని గురించి మరింత తెలుసుకోండి.",
+    poweredBy: "ద్వారా అందించబడింది",
+  },
+};
+
 const CookieBanner = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("consent");
@@ -36,6 +180,9 @@ const CookieBanner = () => {
   const [rawBannerData, setRawBannerData] = useState(null);
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
   const languageDropdownRef = useRef(null);
+
+  // Get static texts for current language
+  const t = STATIC_TEXTS[selectedLanguage] || STATIC_TEXTS[Languages.ENGLISH];
 
   const areSettingsEqual = (a, b) => {
     return JSON.stringify(a) === JSON.stringify(b);
@@ -214,7 +361,9 @@ const CookieBanner = () => {
         // Convert apiCookieSettings from English names to category IDs if present
         const categoryIdSettings = {};
         if (apiCookieSettings) {
-          for (const [categoryId, categoryData] of Object.entries(categorisedData.cookieData)) {
+          for (const [categoryId, categoryData] of Object.entries(
+            categorisedData.cookieData
+          )) {
             const englishName = categoryData.title.toLowerCase();
             if (typeof apiCookieSettings[englishName] === "boolean") {
               categoryIdSettings[categoryId] = apiCookieSettings[englishName];
@@ -223,7 +372,9 @@ const CookieBanner = () => {
         }
 
         // Set initial settings for each category
-        for (const [categoryId, categoryData] of Object.entries(categorisedData.cookieData)) {
+        for (const [categoryId, categoryData] of Object.entries(
+          categorisedData.cookieData
+        )) {
           if (categoryData.isAlwaysActive) {
             // Always active categories (like "necessary") must always be true
             initialSettings[categoryId] = true;
@@ -508,17 +659,21 @@ const CookieBanner = () => {
                   >
                     <div className="text-xs flex flex-col py-4 px-3">
                       <div className="flex items-start w-full">
-                        <div className="w-1/4 font-semibold">Cookie Name </div>
+                        <div className="w-1/4 font-semibold">
+                          {t.cookieName}{" "}
+                        </div>
                         <div className="w-[5%] font-semibold">: </div>
                         <div className="w-[70%]">{cookie.name}</div>
                       </div>
                       <div className="flex items-start w-full">
-                        <div className="w-1/4 font-semibold">Duration </div>
+                        <div className="w-1/4 font-semibold">{t.duration} </div>
                         <div className="w-[5%] font-semibold">: </div>
                         <div className="w-[70%]">{cookie.duration}</div>
                       </div>
                       <div className="flex items-start w-full">
-                        <div className="w-1/4 font-semibold">Description </div>
+                        <div className="w-1/4 font-semibold">
+                          {t.description}{" "}
+                        </div>
                         <div className="w-[5%] font-semibold">: </div>
                         <div className="w-[70%]">{cookie.description}</div>
                       </div>
@@ -535,7 +690,7 @@ const CookieBanner = () => {
 
   // Main CookieDataDropdown Component
   const CookieDataDropdown = ({
-    title = "Manage Consent preferences",
+    title = t.managePreferences,
     data = {},
     allowMultipleOpen = true,
     className = "",
@@ -616,7 +771,7 @@ const CookieBanner = () => {
                   : "!bg-transparent !text-gray-500 !border-transparent"
               }`}
             >
-              Consent
+              {t.consentTab}
             </div>
             <div
               onClick={() => setActiveTab("about")}
@@ -626,7 +781,7 @@ const CookieBanner = () => {
                   : "!bg-transparent !text-gray-500 !border-transparent"
               }`}
             >
-              About Cookies
+              {t.aboutTab}
             </div>
           </div>
           {/* Modal Content */}
@@ -656,7 +811,7 @@ const CookieBanner = () => {
                     rel="noopener noreferrer"
                     className="!text-black !underline !opacity-75 !font-semibold hover:!opacity-100"
                   >
-                    Privacy Policy
+                    {t.privacyPolicy}
                   </a>
                 </div>
                 <CookieDataDropdown
@@ -667,24 +822,16 @@ const CookieBanner = () => {
             ) : (
               <div className="flex flex-col gap-y-2">
                 <p className="max-md:!text-lg md:!text-xl font-semibold text-gray-800">
-                  What are cookies?
+                  {t.aboutCookiesTitle}
                 </p>
                 <div className="!text-sm text-gray-600 leading-relaxed">
-                  Cookies are small text files that can be used by websites to
-                  make a user's experience more efficient.
+                  {t.aboutCookiesPara1}
                 </div>
                 <div className="!text-sm text-gray-600 leading-relaxed">
-                  The law states that we can store cookies on your device if
-                  they are strictly necessary for the operation of this site.
-                  For all other types of cookies we need your permission. This
-                  site uses different types of cookies. Some cookies are placed
-                  by third party services that appear on our pages. You can at
-                  any time change or withdraw your consent from the Cookie
-                  Declaration on our website.
+                  {t.aboutCookiesPara2}
                 </div>
                 <div className="!text-sm text-gray-600 leading-relaxed">
-                  Learn more about who we are, how you can contact us and how we
-                  process personal data in our Privacy Policy.
+                  {t.aboutCookiesPara3}
                 </div>
               </div>
             )}
@@ -710,9 +857,10 @@ const CookieBanner = () => {
               }
             >
               {loading && "Loading..."}
-              {!hasSavedPreference
-                ? bannerData.declineButtonText
-                : "Withdraw your Consent"}
+              {!loading &&
+                (!hasSavedPreference
+                  ? bannerData.declineButtonText
+                  : t.withdrawConsent)}
             </button>
             <button
               onClick={handleAccept}
@@ -734,15 +882,16 @@ const CookieBanner = () => {
               }}
             >
               {loading && "Loading..."}
-              {!hasSavedPreference
-                ? bannerData.acceptButtonText
-                : "Change your Consent"}
+              {!loading &&
+                (!hasSavedPreference
+                  ? bannerData.acceptButtonText
+                  : t.changeConsent)}
             </button>
           </div>
           {/* Modal Footer */}
           <div className="max-md:hidden absolute bottom-4 right-5 text-gray-500">
             <div className="!flex !items-center !gap-x-1 !whitespace-nowrap !text-xs">
-              <span className="!text-xs"> Powered by </span>
+              <span className="!text-xs"> {t.poweredBy} </span>
               <img
                 src="https://bluetic-preprod.s3.ap-south-1.amazonaws.com/blutic-branding.svg"
                 className="h-4.5"
@@ -750,7 +899,7 @@ const CookieBanner = () => {
             </div>
           </div>
           <div className="max-md:!flex max-md:!items-center max-md:!gap-x-1 max-md:!whitespace-nowrap max-md:!text-xs max-md:w-full max-md:!justify-center md:hidden">
-            <span className="!text-xs"> Powered by </span>
+            <span className="!text-xs"> {t.poweredBy} </span>
             <img
               src="https://bluetic-preprod.s3.ap-south-1.amazonaws.com/blutic-branding.svg"
               className="!h-4.5"
@@ -803,7 +952,7 @@ const CookieBanner = () => {
                 }}
                 className="text-black underline opacity-75 font-semibold hover:opacity-100 hover:cursor-pointer"
               >
-                What are cookies?
+                {t.whatAreCookies}
               </div>
             </div>
 
@@ -863,7 +1012,7 @@ const CookieBanner = () => {
             </div>
 
             <div className="!flex !items-center !justify-center !gap-x-1 !text-xs !whitespace-nowrap w-full">
-              <span className="text-black !text-xs"> Powered by </span>
+              <span className="text-black !text-xs"> {t.poweredBy} </span>
               <img
                 src="https://bluetic-preprod.s3.ap-south-1.amazonaws.com/blutic-branding.svg"
                 className="!h-4.5"
@@ -923,7 +1072,7 @@ const CookieBanner = () => {
                   }}
                   className="text-black underline opacity-75 font-semibold hover:opacity-100 hover:cursor-pointer"
                 >
-                  What are cookies?
+                  {t.whatAreCookies}
                 </div>
               </div>
 
@@ -990,7 +1139,7 @@ const CookieBanner = () => {
 
               <div className="absolute bottom-3 right-6 text-gray-500">
                 <div className="!flex !items-center !justify-center !gap-x-1 !text-xs !whitespace-nowrap">
-                  <span className="text-black !text-xs"> Powered by </span>
+                  <span className="text-black !text-xs"> {t.poweredBy} </span>
                   <img
                     src="https://bluetic-preprod.s3.ap-south-1.amazonaws.com/blutic-branding.svg"
                     className="h-4.5"
@@ -1033,7 +1182,7 @@ const CookieBanner = () => {
                     }}
                     className="text-black underline opacity-75 font-semibold hover:opacity-100 hover:cursor-pointer"
                   >
-                    What are cookies?
+                    {t.whatAreCookies}
                   </div>
                 </div>
               </div>
@@ -1101,7 +1250,7 @@ const CookieBanner = () => {
 
               <div className="absolute bottom-2 right-11">
                 <div className="!flex !items-center !justify-center !gap-x-1 !text-xs !whitespace-nowrap">
-                  <span className="text-black !text-xs"> Powered by </span>
+                  <span className="text-black !text-xs"> {t.poweredBy} </span>
                   <img
                     src="https://bluetic-preprod.s3.ap-south-1.amazonaws.com/blutic-branding.svg"
                     className="h-4.5"
