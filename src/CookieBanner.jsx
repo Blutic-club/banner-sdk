@@ -668,7 +668,7 @@ const CookieBanner = () => {
                       <div className="flex items-start w-full">
                         <div className="w-1/4 font-semibold">{t.duration} </div>
                         <div className="w-[5%] font-semibold">: </div>
-                        <div className="w-[70%]">{cookie.validityPeriod}</div>
+                        <div className="w-[70%]">{cookie.duration}</div>
                       </div>
                       <div className="flex items-start w-full">
                         <div className="w-1/4 font-semibold">
