@@ -597,7 +597,7 @@ const CookieBanner = () => {
           {LANGUAGE_NAMES[selectedLanguage]} <ChevronDown size={10} />
         </div>
         {isLanguageDropdownOpen && (
-          <div className="absolute right-0 mt-1 bg-white border border-gray-300 rounded-md shadow-lg z-[100001] min-w-[120px] max-h-[200px] overflow-y-auto">
+          <div className="absolute right-0 mt-1 bg-white border border-gray-300 rounded-md shadow-lg z-[100001] min-w-[120px] max-h-[280px] overflow-y-auto">
             {Object.entries(Languages).map(([, value]) => (
               <div
                 key={value}
