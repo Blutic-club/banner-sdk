@@ -210,16 +210,32 @@ const CookieBanner = () => {
         Object.keys(categorisedData.cookieData).length > 0
       ) {
         const initialSettings = {};
-        for (const [key] of Object.entries(categorisedData.cookieData)) {
-          if (
-            apiCookieSettings &&
-            typeof apiCookieSettings[key] === "boolean"
-          ) {
-            initialSettings[key] = apiCookieSettings[key];
-          } else {
-            initialSettings[key] = true;
+
+        // Convert apiCookieSettings from English names to category IDs if present
+        const categoryIdSettings = {};
+        if (apiCookieSettings) {
+          for (const [categoryId, categoryData] of Object.entries(categorisedData.cookieData)) {
+            const englishName = categoryData.title.toLowerCase();
+            if (typeof apiCookieSettings[englishName] === "boolean") {
+              categoryIdSettings[categoryId] = apiCookieSettings[englishName];
+            }
           }
         }
+
+        // Set initial settings for each category
+        for (const [categoryId, categoryData] of Object.entries(categorisedData.cookieData)) {
+          if (categoryData.isAlwaysActive) {
+            // Always active categories (like "necessary") must always be true
+            initialSettings[categoryId] = true;
+          } else if (typeof categoryIdSettings[categoryId] === "boolean") {
+            // Use saved consent settings if available
+            initialSettings[categoryId] = categoryIdSettings[categoryId];
+          } else {
+            // Default to true for new users
+            initialSettings[categoryId] = true;
+          }
+        }
+
         setCookieSettings(initialSettings);
         setPrevCookieSettings(initialSettings);
         if (consentArr.length > 0) {
@@ -343,13 +359,12 @@ const CookieBanner = () => {
     setHasInteracted(true);
     setIsVisible(false);
 
-    // Set all cookie settings to false except necessary cookies
+    // Set all cookie settings to false except necessary (isAlwaysActive) cookies
     const rejectedSettings = {};
-    const cookieKeys = Object.keys(cookieSettings);
 
-    for (let i = 0; i < cookieKeys.length; i++) {
-      const key = cookieKeys[i];
-      rejectedSettings[key] = key === "necessary" ? true : false;
+    for (const [categoryId, categoryData] of Object.entries(cookieData)) {
+      // Always active categories (like "necessary") must remain true
+      rejectedSettings[categoryId] = categoryData.isAlwaysActive ? true : false;
     }
 
     setCookieSettings(rejectedSettings);
@@ -396,11 +411,13 @@ const CookieBanner = () => {
     }
   };
 
-  const toggleCookieSetting = (type) => {
-    if (type === "necessary") return; // Can't toggle always active cookies
+  const toggleCookieSetting = (categoryId) => {
+    // Can't toggle always active cookies (like "necessary")
+    if (cookieData[categoryId]?.isAlwaysActive) return;
+
     setCookieSettings((prev) => ({
       ...prev,
-      [type]: !prev[type],
+      [categoryId]: !prev[categoryId],
     }));
   };
 
@@ -470,7 +487,7 @@ const CookieBanner = () => {
                 <span>{category.title}</span>
                 <ToggleSwitch
                   isOn={cookieSettings[categoryKey]}
-                  disabled={categoryKey === "necessary"}
+                  disabled={category.isAlwaysActive}
                   onClick={() => toggleCookieSetting(categoryKey)}
                 />
               </div>
