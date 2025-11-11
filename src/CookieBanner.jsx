@@ -587,7 +587,11 @@ const CookieBanner = () => {
     }
 
     // Check if it's an ISO date format (YYYY-MM-DDTHH:mm:ss.sssZ) and doesn't contain GMT
-    if (duration.includes("T") && duration.includes("Z") && !duration.includes("GMT")) {
+    if (
+      duration.includes("T") &&
+      duration.includes("Z") &&
+      !duration.includes("GMT")
+    ) {
       try {
         let expiresDate;
 
@@ -615,20 +619,30 @@ const CookieBanner = () => {
     return duration;
   };
 
-  const ToggleSwitch = ({ isOn, disabled, onClick }) => (
-    <div
-      className={`w-10 h-5 rounded-full relative transition-colors duration-200 ${
-        disabled ? "cursor-not-allowed" : "cursor-pointer"
-      } ${isOn ? "bg-blue-500" : "bg-gray-300"}`}
-      onClick={disabled ? undefined : onClick}
-    >
+  const ToggleSwitch = ({ isOn, disabled, onClick }) => {
+    const handleClick = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (!disabled && onClick) {
+        onClick();
+      }
+    };
+
+    return (
       <div
-        className={`w-4 h-4 bg-white rounded-full absolute top-0.5 transition-all duration-200 ${
-          isOn ? "right-0.5" : "left-0.5"
-        }`}
-      />
-    </div>
-  );
+        className={`w-10 h-5 rounded-full relative transition-colors duration-200 ${
+          disabled ? "cursor-not-allowed" : "cursor-pointer"
+        } ${isOn ? "bg-blue-500" : "bg-gray-300"}`}
+        onClick={handleClick}
+      >
+        <div
+          className={`w-4 h-4 bg-white rounded-full absolute top-0.5 transition-all duration-200 ${
+            isOn ? "right-0.5" : "left-0.5"
+          }`}
+        />
+      </div>
+    );
+  };
 
   const LanguageDropdown = () => {
     return (
@@ -711,7 +725,9 @@ const CookieBanner = () => {
                       <div className="flex items-start w-full">
                         <div className="w-1/4 font-semibold">{t.duration} </div>
                         <div className="w-[5%] font-semibold">: </div>
-                        <div className="w-[70%]">{formatDuration(cookie.duration)}</div>
+                        <div className="w-[70%]">
+                          {formatDuration(cookie.duration)}
+                        </div>
                       </div>
                       <div className="flex items-start w-full">
                         <div className="w-1/4 font-semibold">
