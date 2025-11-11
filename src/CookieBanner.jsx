@@ -572,6 +572,49 @@ const CookieBanner = () => {
     }));
   };
 
+  const formatDuration = (duration) => {
+    if (!duration) return "";
+
+    // Check for session cookies
+    const isSession =
+      duration === "Session" ||
+      duration === "session" ||
+      duration === "" ||
+      duration === null;
+
+    if (isSession) {
+      return "Session";
+    }
+
+    // Check if it's an ISO date format (YYYY-MM-DDTHH:mm:ss.sssZ) and doesn't contain GMT
+    if (duration.includes("T") && duration.includes("Z") && !duration.includes("GMT")) {
+      try {
+        let expiresDate;
+
+        // Check if it's a Unix timestamp (in seconds)
+        if (!isNaN(Number(duration)) && Number(duration) > 1000000000) {
+          expiresDate = new Date(Number(duration) * 1000);
+        } else {
+          expiresDate = new Date(duration);
+        }
+
+        if (!isNaN(expiresDate.getTime())) {
+          if (expiresDate < new Date()) {
+            return "Expired";
+          } else {
+            return expiresDate.toUTCString();
+          }
+        }
+      } catch (error) {
+        // Keep original value if parsing fails
+        return duration;
+      }
+    }
+
+    // Return as-is for other formats (GMT, "Expired", etc.)
+    return duration;
+  };
+
   const ToggleSwitch = ({ isOn, disabled, onClick }) => (
     <div
       className={`w-10 h-5 rounded-full relative transition-colors duration-200 ${
@@ -668,7 +711,7 @@ const CookieBanner = () => {
                       <div className="flex items-start w-full">
                         <div className="w-1/4 font-semibold">{t.duration} </div>
                         <div className="w-[5%] font-semibold">: </div>
-                        <div className="w-[70%]">{cookie.duration}</div>
+                        <div className="w-[70%]">{formatDuration(cookie.duration)}</div>
                       </div>
                       <div className="flex items-start w-full">
                         <div className="w-1/4 font-semibold">
