@@ -17,23 +17,23 @@ export const Consent = {
 };
 
 export const Languages = {
-  ENGLISH: 'en',
-  HINDI: 'hi',
-  KANNADA: 'kn',
-  TAMIL: 'ta',
-  MALAYALAM: 'ml',
-  MARATHI: 'mr',
-  TELUGU: 'te',
+  ENGLISH: "en",
+  HINDI: "hi",
+  KANNADA: "kn",
+  TAMIL: "ta",
+  MALAYALAM: "ml",
+  MARATHI: "mr",
+  TELUGU: "te",
 };
 
 export const LANGUAGE_NAMES = {
-  [Languages.ENGLISH]: 'English',
-  [Languages.HINDI]: 'हिन्दी',
-  [Languages.KANNADA]: 'ಕನ್ನಡ',
-  [Languages.TAMIL]: 'தமிழ்',
-  [Languages.MALAYALAM]: 'മലയാളം',
-  [Languages.MARATHI]: 'मराठी',
-  [Languages.TELUGU]: 'తెలుగు',
+  [Languages.ENGLISH]: "English",
+  [Languages.HINDI]: "हिन्दी",
+  [Languages.KANNADA]: "ಕನ್ನಡ",
+  [Languages.TAMIL]: "தமிழ்",
+  [Languages.MALAYALAM]: "മലയാളം",
+  [Languages.MARATHI]: "मराठी",
+  [Languages.TELUGU]: "తెలుగు",
 };
 
 // Google Consent Mode v2 parameter mapping
@@ -495,8 +495,9 @@ function parseBannerApiData(bannerData) {
     };
   }
 
-  // Place each cookie in its category
-  for (const cookie of bannerData.cookies) {
+  // Filter out deleted cookies and place each cookie in its category
+  const activeCookies = bannerData.cookies.filter(cookie => !cookie.isDeleted);
+  for (const cookie of activeCookies) {
     const cat = cookiesByCategory[cookie.category];
     if (cat) {
       cat.cookies.push({

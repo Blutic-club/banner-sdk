@@ -58,7 +58,7 @@ const CookieBanner = () => {
       return rawBannerData ? parseBannerApiData(rawBannerData) : null;
     }
 
-    const translation = translations.find(t => t.langCode === langCode);
+    const translation = translations.find((t) => t.langCode === langCode);
     if (!translation) {
       return rawBannerData ? parseBannerApiData(rawBannerData) : null;
     }
@@ -75,22 +75,32 @@ const CookieBanner = () => {
         manageButtonText: translation.translatedData.banner.manageButtonText,
         privacyPolicy: translation.translatedData.banner.privacyPolicy,
       },
-      categories: rawBannerData.categories.map(cat => {
-        const translatedCat = translation.translatedData.categories.find(tc => tc._id === cat._id);
-        return translatedCat ? {
-          ...cat,
-          name: translatedCat.name,
-          description: translatedCat.description,
-        } : cat;
+      categories: rawBannerData.categories.map((cat) => {
+        const translatedCat = translation.translatedData.categories.find(
+          (tc) => tc._id === cat._id
+        );
+        return translatedCat
+          ? {
+              ...cat,
+              name: translatedCat.name,
+              description: translatedCat.description,
+            }
+          : cat;
       }),
-      cookies: rawBannerData.cookies.map(cookie => {
-        const translatedCookie = translation.translatedData.cookies.find(tc => tc._id === cookie._id);
-        return translatedCookie ? {
-          ...cookie,
-          name: translatedCookie.name,
-          description: translatedCookie.description,
-        } : cookie;
-      }),
+      cookies: rawBannerData.cookies
+        .filter(cookie => !cookie.isDeleted)
+        .map((cookie) => {
+          const translatedCookie = translation.translatedData.cookies.find(
+            (tc) => tc._id === cookie._id
+          );
+          return translatedCookie
+            ? {
+                ...cookie,
+                name: translatedCookie.name,
+                description: translatedCookie.description,
+              }
+            : cookie;
+        }),
     };
 
     return parseBannerApiData(translatedBannerData);
@@ -110,14 +120,17 @@ const CookieBanner = () => {
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (languageDropdownRef.current && !languageDropdownRef.current.contains(event.target)) {
+      if (
+        languageDropdownRef.current &&
+        !languageDropdownRef.current.contains(event.target)
+      ) {
         setIsLanguageDropdownOpen(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -422,7 +435,9 @@ const CookieBanner = () => {
                 key={value}
                 onClick={() => handleLanguageChange(value)}
                 className={`px-3 py-2 text-xs cursor-pointer hover:bg-gray-100 transition-colors ${
-                  selectedLanguage === value ? 'bg-blue-50 text-blue-600' : 'text-gray-800'
+                  selectedLanguage === value
+                    ? "bg-blue-50 text-blue-600"
+                    : "text-gray-800"
                 }`}
               >
                 {LANGUAGE_NAMES[value]}
