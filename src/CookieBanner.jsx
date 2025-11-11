@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import {
   initializeCookieBannerSDK,
@@ -14,6 +14,8 @@ import {
   generateInteractionId,
   trackIgnoredInteraction,
   trackInteraction,
+  Languages,
+  LANGUAGE_NAMES,
 } from "./bannerActivity";
 
 const CookieBanner = () => {
@@ -29,6 +31,11 @@ const CookieBanner = () => {
   const [hasInteracted, setHasInteracted] = useState(false);
   const [interactionId, setInteractionId] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState(Languages.ENGLISH);
+  const [translations, setTranslations] = useState([]);
+  const [rawBannerData, setRawBannerData] = useState(null);
+  const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
+  const languageDropdownRef = useRef(null);
 
   const areSettingsEqual = (a, b) => {
     return JSON.stringify(a) === JSON.stringify(b);
@@ -44,6 +51,75 @@ const CookieBanner = () => {
   const applyConsentToGoogleConsentMode = (settings) => {
     updateGoogleConsentMode(settings);
   };
+
+  // Get translated data based on selected language
+  const getTranslatedData = (langCode) => {
+    if (langCode === Languages.ENGLISH || !rawBannerData) {
+      return rawBannerData ? parseBannerApiData(rawBannerData) : null;
+    }
+
+    const translation = translations.find(t => t.langCode === langCode);
+    if (!translation) {
+      return rawBannerData ? parseBannerApiData(rawBannerData) : null;
+    }
+
+    // Create translated version
+    const translatedBannerData = {
+      ...rawBannerData,
+      banner: {
+        ...rawBannerData.banner,
+        title: translation.translatedData.banner.title,
+        description: translation.translatedData.banner.description,
+        acceptButtonText: translation.translatedData.banner.acceptButtonText,
+        declineButtonText: translation.translatedData.banner.declineButtonText,
+        manageButtonText: translation.translatedData.banner.manageButtonText,
+        privacyPolicy: translation.translatedData.banner.privacyPolicy,
+      },
+      categories: rawBannerData.categories.map(cat => {
+        const translatedCat = translation.translatedData.categories.find(tc => tc._id === cat._id);
+        return translatedCat ? {
+          ...cat,
+          name: translatedCat.name,
+          description: translatedCat.description,
+        } : cat;
+      }),
+      cookies: rawBannerData.cookies.map(cookie => {
+        const translatedCookie = translation.translatedData.cookies.find(tc => tc._id === cookie._id);
+        return translatedCookie ? {
+          ...cookie,
+          name: translatedCookie.name,
+          description: translatedCookie.description,
+        } : cookie;
+      }),
+    };
+
+    return parseBannerApiData(translatedBannerData);
+  };
+
+  // Handle language change
+  const handleLanguageChange = (langCode) => {
+    setSelectedLanguage(langCode);
+    const translatedData = getTranslatedData(langCode);
+    if (translatedData) {
+      setBannerData(translatedData.bannerDetails);
+      setCookieData(translatedData.cookieData);
+    }
+    setIsLanguageDropdownOpen(false);
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (languageDropdownRef.current && !languageDropdownRef.current.contains(event.target)) {
+        setIsLanguageDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     // Generate or get existing interaction ID
@@ -73,17 +149,23 @@ const CookieBanner = () => {
       let categorisedData;
       let apiCookieSettings = null;
       let consentArr = [];
+      let rawData;
 
       if (!config) {
-        const bannerData = await fetchBannerConfig();
-        categorisedData = parseBannerApiData(bannerData);
-        consentArr = bannerData.consent || [];
+        rawData = await fetchBannerConfig();
+        categorisedData = parseBannerApiData(rawData);
+        consentArr = rawData.consent || [];
         setHasSavedPreference(consentArr.length !== 0);
       } else {
+        rawData = config;
         categorisedData = parseBannerApiData(config);
         consentArr = config.consent || [];
         setHasSavedPreference(consentArr.length !== 0);
       }
+
+      // Store raw data and translations
+      setRawBannerData(rawData);
+      setTranslations(rawData.translations || []);
 
       for (const item of consentArr) {
         if (item.cookieSettings) {
@@ -324,6 +406,34 @@ const CookieBanner = () => {
     </div>
   );
 
+  const LanguageDropdown = () => {
+    return (
+      <div className="relative" ref={languageDropdownRef}>
+        <div
+          onClick={() => setIsLanguageDropdownOpen(!isLanguageDropdownOpen)}
+          className="text-xs border border-gray-300 bg-gray-50 text-gray-800 rounded-md px-3 py-1 flex items-center gap-1 cursor-pointer hover:bg-gray-100 transition-colors"
+        >
+          {LANGUAGE_NAMES[selectedLanguage]} <ChevronDown size={10} />
+        </div>
+        {isLanguageDropdownOpen && (
+          <div className="absolute right-0 mt-1 bg-white border border-gray-300 rounded-md shadow-lg z-[100001] min-w-[120px] max-h-[200px] overflow-y-auto">
+            {Object.entries(Languages).map(([, value]) => (
+              <div
+                key={value}
+                onClick={() => handleLanguageChange(value)}
+                className={`px-3 py-2 text-xs cursor-pointer hover:bg-gray-100 transition-colors ${
+                  selectedLanguage === value ? 'bg-blue-50 text-blue-600' : 'text-gray-800'
+                }`}
+              >
+                {LANGUAGE_NAMES[value]}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  };
+
   const CookieDataItems = ({ category, categoryKey, isOpen, onToggle }) => {
     return (
       <div className="border-b border-gray-200 last:border-b-0 text-black">
@@ -498,9 +608,7 @@ const CookieBanner = () => {
                   >
                     {bannerData.title}
                   </p>
-                  <div className="text-xs border border-gray-300 bg-gray-50 text-gray-800 rounded-md px-3 py-1 flex items-center gap-1">
-                    English <ChevronDown size={10} />
-                  </div>
+                  <LanguageDropdown />
                 </div>
 
                 <div
@@ -638,9 +746,7 @@ const CookieBanner = () => {
               >
                 {bannerData.title}
               </p>
-              <div className="text-xs border border-gray-300 bg-gray-50 text-gray-800 rounded-md px-3 py-1 flex items-center gap-1">
-                English <ChevronDown size={10} />
-              </div>
+              <LanguageDropdown />
             </div>
 
             <div
@@ -760,9 +866,7 @@ const CookieBanner = () => {
                 >
                   {bannerData.title}
                 </p>
-                <div className="text-xs border border-gray-300 bg-gray-50 text-gray-800 rounded-md px-3 py-1 flex items-center gap-1">
-                  English <ChevronDown size={10} />
-                </div>
+                <LanguageDropdown />
               </div>
 
               <div
@@ -872,9 +976,7 @@ const CookieBanner = () => {
                   >
                     {bannerData.title}
                   </p>
-                  <div className="text-xs border border-gray-300 bg-gray-50 text-gray-800 rounded-md px-3 py-1 flex items-center gap-1">
-                    English <ChevronDown size={10} />
-                  </div>
+                  <LanguageDropdown />
                 </div>
 
                 <div

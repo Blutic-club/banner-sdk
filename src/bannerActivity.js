@@ -16,6 +16,26 @@ export const Consent = {
   WITHDRAWN: "Withdrawn",
 };
 
+export const Languages = {
+  ENGLISH: 'en',
+  HINDI: 'hi',
+  KANNADA: 'kn',
+  TAMIL: 'ta',
+  MALAYALAM: 'ml',
+  MARATHI: 'mr',
+  TELUGU: 'te',
+};
+
+export const LANGUAGE_NAMES = {
+  [Languages.ENGLISH]: 'English',
+  [Languages.HINDI]: 'हिन्दी',
+  [Languages.KANNADA]: 'ಕನ್ನಡ',
+  [Languages.TAMIL]: 'தமிழ்',
+  [Languages.MALAYALAM]: 'മലയാളം',
+  [Languages.MARATHI]: 'मराठी',
+  [Languages.TELUGU]: 'తెలుగు',
+};
+
 // Google Consent Mode v2 parameter mapping
 const CONSENT_MODE_MAPPING = {
   // Default platform categories
