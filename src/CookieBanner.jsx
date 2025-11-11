@@ -572,6 +572,25 @@ const CookieBanner = () => {
     }));
   };
 
+  const formatValidityPeriod = (validityPeriod) => {
+    if (!validityPeriod) return "";
+
+    // Check if it's an ISO date format (YYYY-MM-DDTHH:mm:ss.sssZ)
+    if (validityPeriod.includes("T") && validityPeriod.includes("Z")) {
+      const date = new Date(validityPeriod);
+      return date.toLocaleDateString(undefined, {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    }
+
+    // Return as-is for other formats (like "Wed, 11 Nov 2026 05:59:51 GMT")
+    return validityPeriod;
+  };
+
   const ToggleSwitch = ({ isOn, disabled, onClick }) => (
     <div
       className={`w-10 h-5 rounded-full relative transition-colors duration-200 ${
@@ -668,7 +687,7 @@ const CookieBanner = () => {
                       <div className="flex items-start w-full">
                         <div className="w-1/4 font-semibold">{t.duration} </div>
                         <div className="w-[5%] font-semibold">: </div>
-                        <div className="w-[70%]">{cookie.duration}</div>
+                        <div className="w-[70%]">{formatValidityPeriod(cookie.validityPeriod)}</div>
                       </div>
                       <div className="flex items-start w-full">
                         <div className="w-1/4 font-semibold">
