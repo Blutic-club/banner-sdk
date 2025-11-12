@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import {
   initializeCookieBannerSDK,
@@ -675,7 +675,12 @@ const CookieBanner = () => {
     );
   };
 
-  const CookieDataItems = ({ category, categoryKey, isOpen, onToggle }) => {
+  const CookieDataItems = React.memo(function CookieDataItems({
+    category,
+    categoryKey,
+    isOpen,
+    onToggle,
+  }) {
     return (
       <div className="border-b border-gray-200 last:border-b-0 text-black">
         <div
@@ -713,9 +718,9 @@ const CookieBanner = () => {
                     : "max-h-0 opacity-0"
                 }`}
               >
-                {category.cookies.map((cookie, index) => (
+                {category.cookies.map((cookie) => (
                   <div
-                    key={index}
+                    key={cookie._id ?? cookie.name}
                     className="border-b border-b-gray-300 last:border-none w-full"
                   >
                     <div className="text-xs flex flex-col py-4 px-3">
@@ -749,7 +754,7 @@ const CookieBanner = () => {
         </div>
       </div>
     );
-  };
+  });
 
   // Main CookieDataDropdown Component
   const CookieDataDropdown = ({
@@ -789,7 +794,7 @@ const CookieBanner = () => {
     }));
 
     return (
-      <div className={`${className} cookie-category-scroll`}>
+      <div className={`${className}`} style={{ overflowAnchor: "none" }}>
         <div className="font-bold !text-lg text-black">{title}</div>
 
         <div className="">
