@@ -220,12 +220,11 @@ const CookieBanner = () => {
       ...rawBannerData,
       banner: {
         ...rawBannerData.banner,
-        title: translation.translatedData.banner.title,
-        description: translation.translatedData.banner.description,
-        acceptButtonText: translation.translatedData.banner.acceptButtonText,
-        declineButtonText: translation.translatedData.banner.declineButtonText,
-        manageButtonText: translation.translatedData.banner.manageButtonText,
-        privacyPolicy: translation.translatedData.banner.privacyPolicy,
+        title: translation.translatedData.banner.title || rawBannerData.banner.title,
+        description: translation.translatedData.banner.description || rawBannerData.banner.description,
+        acceptButtonText: translation.translatedData.banner.acceptButtonText || rawBannerData.banner.acceptButtonText,
+        declineButtonText: translation.translatedData.banner.declineButtonText || rawBannerData.banner.declineButtonText,
+        manageButtonText: translation.translatedData.banner.manageButtonText || rawBannerData.banner.manageButtonText,
       },
       categories: rawBannerData.categories.map((cat) => {
         const translatedCat = translation.translatedData.categories.find(
@@ -260,11 +259,14 @@ const CookieBanner = () => {
 
   // Handle language change
   const handleLanguageChange = (langCode) => {
+    console.log("Language changing to:", langCode);
     setSelectedLanguage(langCode);
     const translatedData = getTranslatedData(langCode);
+    console.log("Translated data:", translatedData);
     if (translatedData) {
       setBannerData(translatedData.bannerDetails);
       setCookieData(translatedData.cookieData);
+      console.log("Banner data updated:", translatedData.bannerDetails);
     }
     setIsLanguageDropdownOpen(false);
   };
@@ -1046,6 +1048,7 @@ const CookieBanner = () => {
                 className="font-semibold !text-lg"
                 style={{ color: bannerData.titleColor }}
               >
+                {console.log("Mobile banner title:", bannerData.title)}
                 {bannerData.title}
               </p>
               <LanguageDropdown />
