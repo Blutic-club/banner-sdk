@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import {
   initializeCookieBannerSDK,
@@ -611,6 +611,7 @@ const CookieBanner = () => {
         }
       } catch (error) {
         // Keep original value if parsing fails
+        console.error("Error parsing duration:", error);
         return duration;
       }
     }
