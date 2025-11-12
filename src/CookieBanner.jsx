@@ -180,6 +180,9 @@ const CookieBanner = () => {
   const [rawBannerData, setRawBannerData] = useState(null);
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
   const languageDropdownRef = useRef(null);
+  const [openItems, setOpenItems] = useState(new Set());
+  const scrollContainerRef = useRef(null);
+  const scrollPositionRef = useRef(0);
 
   // Get static texts for current language
   const t = STATIC_TEXTS[selectedLanguage] || STATIC_TEXTS[Languages.ENGLISH];
@@ -280,6 +283,13 @@ const CookieBanner = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  // Restore scroll position after render
+  useEffect(() => {
+    if (scrollContainerRef.current && scrollPositionRef.current > 0) {
+      scrollContainerRef.current.scrollTop = scrollPositionRef.current;
+    }
+  });
 
   useEffect(() => {
     // Generate or get existing interaction ID
@@ -675,86 +685,97 @@ const CookieBanner = () => {
     );
   };
 
-  const CookieDataItems = React.memo(function CookieDataItems({
-    category,
-    categoryKey,
-    isOpen,
-    onToggle,
-  }) {
-    return (
-      <div className="border-b border-gray-200 last:border-b-0 text-black">
-        <div
-          className="w-full py-5 text-left flex justify-between items-center hover:cursor-pointer transition-colors duration-200"
-          onClick={onToggle}
-          aria-expanded={isOpen}
-        >
-          <div className="flex w-full">
-            <div className="w-[5%]">
-              {isOpen ? (
-                <ChevronDown className="w-4 h-4 text-gray-500" />
-              ) : (
-                <ChevronRight className="w-4 h-4 text-gray-500" />
-              )}
-            </div>
-            <div className="flex flex-col w-[95%]">
-              <div className="flex justify-between items-center font-medium text-gray-800 text-sm w-full">
-                <span>{category.title}</span>
-                <ToggleSwitch
-                  isOn={cookieSettings[categoryKey]}
-                  disabled={category.isAlwaysActive}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleCookieSetting(categoryKey);
-                  }}
-                />
+  const CookieDataItems = React.memo(
+    function CookieDataItems({ category, categoryKey, isOpen, onToggle }) {
+      return (
+        <div className="border-b border-gray-200 last:border-b-0 text-black">
+          <div
+            className="w-full py-5 text-left flex justify-between items-center hover:cursor-pointer transition-colors duration-200"
+            onClick={onToggle}
+            aria-expanded={isOpen}
+          >
+            <div className="flex w-full">
+              <div className="w-[5%]">
+                {isOpen ? (
+                  <ChevronDown className="w-4 h-4 text-gray-500" />
+                ) : (
+                  <ChevronRight className="w-4 h-4 text-gray-500" />
+                )}
               </div>
-              <div className="text-xs text-gray-500 mt-1 !w-3/4">
-                {category.description}
-              </div>
-              <div
-                className={`overflow-hidden transition-all duration-300 ease-in-out bg-[#f0f2f7] w-full ${
-                  isOpen
-                    ? "max-h-96 opacity-100 mt-1.5 overscroll-y-auto rounded-lg"
-                    : "max-h-0 opacity-0"
-                }`}
-              >
-                {category.cookies.map((cookie) => (
+              <div className="flex flex-col w-[95%]">
+                <div className="flex justify-between items-center font-medium text-gray-800 text-sm w-full">
+                  <span>{category.title}</span>
                   <div
-                    key={cookie._id ?? cookie.name}
-                    className="border-b border-b-gray-300 last:border-none w-full"
+                    onClick={(e) => e.stopPropagation()}
+                    style={{ isolation: "isolate" }}
                   >
-                    <div className="text-xs flex flex-col py-4 px-3">
-                      <div className="flex items-start w-full">
-                        <div className="w-1/4 font-semibold">
-                          {t.cookieName}{" "}
+                    <ToggleSwitch
+                      isOn={cookieSettings[categoryKey]}
+                      disabled={category.isAlwaysActive}
+                      onClick={() => toggleCookieSetting(categoryKey)}
+                    />
+                  </div>
+                </div>
+                <div className="text-xs text-gray-500 mt-1 !w-3/4">
+                  {category.description}
+                </div>
+                <div
+                  className={`overflow-hidden transition-all duration-300 ease-in-out bg-[#f0f2f7] w-full ${
+                    isOpen
+                      ? "max-h-96 opacity-100 mt-1.5 overscroll-y-auto rounded-lg"
+                      : "max-h-0 opacity-0"
+                  }`}
+                >
+                  {category.cookies.map((cookie) => (
+                    <div
+                      key={cookie._id ?? cookie.name}
+                      className="border-b border-b-gray-300 last:border-none w-full"
+                    >
+                      <div className="text-xs flex flex-col py-4 px-3">
+                        <div className="flex items-start w-full">
+                          <div className="w-1/4 font-semibold">
+                            {t.cookieName}{" "}
+                          </div>
+                          <div className="w-[5%] font-semibold">: </div>
+                          <div className="w-[70%]">{cookie.name}</div>
                         </div>
-                        <div className="w-[5%] font-semibold">: </div>
-                        <div className="w-[70%]">{cookie.name}</div>
-                      </div>
-                      <div className="flex items-start w-full">
-                        <div className="w-1/4 font-semibold">{t.duration} </div>
-                        <div className="w-[5%] font-semibold">: </div>
-                        <div className="w-[70%]">
-                          {formatDuration(cookie.duration)}
+                        <div className="flex items-start w-full">
+                          <div className="w-1/4 font-semibold">
+                            {t.duration}{" "}
+                          </div>
+                          <div className="w-[5%] font-semibold">: </div>
+                          <div className="w-[70%]">
+                            {formatDuration(cookie.duration)}
+                          </div>
                         </div>
-                      </div>
-                      <div className="flex items-start w-full">
-                        <div className="w-1/4 font-semibold">
-                          {t.description}{" "}
+                        <div className="flex items-start w-full">
+                          <div className="w-1/4 font-semibold">
+                            {t.description}{" "}
+                          </div>
+                          <div className="w-[5%] font-semibold">: </div>
+                          <div className="w-[70%]">{cookie.description}</div>
                         </div>
-                        <div className="w-[5%] font-semibold">: </div>
-                        <div className="w-[70%]">{cookie.description}</div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    );
-  });
+      );
+    },
+    (prevProps, nextProps) => {
+      // Custom comparison function for React.memo
+      // Only re-render if these specific props change
+      return (
+        prevProps.isOpen === nextProps.isOpen &&
+        prevProps.categoryKey === nextProps.categoryKey &&
+        cookieSettings[prevProps.categoryKey] ===
+          cookieSettings[nextProps.categoryKey]
+      );
+    }
+  );
 
   // Main CookieDataDropdown Component
   const CookieDataDropdown = ({
@@ -763,7 +784,12 @@ const CookieBanner = () => {
     allowMultipleOpen = true,
     className = "",
   }) => {
-    const [openItems, setOpenItems] = useState(new Set());
+    // Save scroll position before any state update
+    const saveScrollPosition = () => {
+      if (scrollContainerRef.current) {
+        scrollPositionRef.current = scrollContainerRef.current.scrollTop;
+      }
+    };
 
     const handleToggle = (index) => {
       const newOpenItems = new Set(openItems);
@@ -794,7 +820,12 @@ const CookieBanner = () => {
     }));
 
     return (
-      <div className={`${className}`} style={{ overflowAnchor: "none" }}>
+      <div
+        className={`${className}`}
+        ref={scrollContainerRef}
+        style={{ overflowAnchor: "none" }}
+        onScroll={saveScrollPosition}
+      >
         <div className="font-bold !text-lg text-black">{title}</div>
 
         <div className="">
