@@ -183,6 +183,8 @@ const CookieBanner = () => {
   const [openItems, setOpenItems] = useState(new Set());
   const scrollContainerRef = useRef(null);
   const scrollPositionRef = useRef(0);
+  const [dropdownPosition, setDropdownPosition] = useState("bottom");
+  const dropdownRef = useRef(null);
 
   // Get static texts for current language
   const t = STATIC_TEXTS[selectedLanguage] || STATIC_TEXTS[Languages.ENGLISH];
@@ -454,6 +456,21 @@ const CookieBanner = () => {
     };
   }, [isModalOpen]);
 
+  useEffect(() => {
+    if (isLanguageDropdownOpen && languageDropdownRef.current) {
+      const rect = languageDropdownRef.current.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.bottom;
+      const spaceAbove = rect.top;
+
+      // If less than 220px space below, show above
+      if (spaceBelow < 220 && spaceAbove > spaceBelow) {
+        setDropdownPosition("top");
+      } else {
+        setDropdownPosition("bottom");
+      }
+    }
+  }, [isLanguageDropdownOpen]);
+
   const handleAccept = async () => {
     setLoading(true);
     setHasInteracted(true);
@@ -665,7 +682,12 @@ const CookieBanner = () => {
           {LANGUAGE_NAMES[selectedLanguage]} <ChevronDown size={10} />
         </div>
         {isLanguageDropdownOpen && (
-          <div className="absolute right-0 mt-1 bg-white border border-gray-300 rounded-md shadow-lg z-[100001] min-w-[120px] max-h-[280px] overflow-y-auto">
+          <div
+            ref={dropdownRef}
+            className={`absolute right-0 bg-white border border-gray-300 rounded-md shadow-lg z-[100001] min-w-[120px] max-h-[200px] overflow-y-auto ${
+              dropdownPosition === "top" ? "bottom-full mb-1" : "top-full mt-1"
+            }`}
+          >
             {Object.entries(Languages).map(([, value]) => (
               <div
                 key={value}
