@@ -693,11 +693,13 @@ const CookieBanner = () => {
             <div className="flex flex-col w-[95%]">
               <div className="flex justify-between items-center font-medium text-gray-800 text-sm w-full">
                 <span>{category.title}</span>
-                <ToggleSwitch
-                  isOn={cookieSettings[categoryKey]}
-                  disabled={category.isAlwaysActive}
-                  onClick={() => toggleCookieSetting(categoryKey)}
-                />
+                <div onClick={(e) => e.stopPropagation()}>
+                  <ToggleSwitch
+                    isOn={cookieSettings[categoryKey]}
+                    disabled={category.isAlwaysActive}
+                    onClick={() => toggleCookieSetting(categoryKey)}
+                  />
+                </div>
               </div>
               <div className="text-xs text-gray-500 mt-1 !w-3/4">
                 {category.description}
