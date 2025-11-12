@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import {
   initializeCookieBannerSDK,
@@ -625,7 +625,7 @@ const CookieBanner = () => {
       e.preventDefault();
       e.stopPropagation();
       if (!disabled && onClick) {
-        onClick();
+        onClick(e);
       }
     };
 
@@ -694,13 +694,14 @@ const CookieBanner = () => {
             <div className="flex flex-col w-[95%]">
               <div className="flex justify-between items-center font-medium text-gray-800 text-sm w-full">
                 <span>{category.title}</span>
-                <div onClick={(e) => e.stopPropagation()}>
-                  <ToggleSwitch
-                    isOn={cookieSettings[categoryKey]}
-                    disabled={category.isAlwaysActive}
-                    onClick={() => toggleCookieSetting(categoryKey)}
-                  />
-                </div>
+                <ToggleSwitch
+                  isOn={cookieSettings[categoryKey]}
+                  disabled={category.isAlwaysActive}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleCookieSetting(categoryKey);
+                  }}
+                />
               </div>
               <div className="text-xs text-gray-500 mt-1 !w-3/4">
                 {category.description}
@@ -758,28 +759,6 @@ const CookieBanner = () => {
     className = "",
   }) => {
     const [openItems, setOpenItems] = useState(new Set());
-    const scrollContainerRef = useRef(null);
-    const scrollPositionRef = useRef(0);
-
-    // Save scroll position before state updates
-    useEffect(() => {
-      const container = scrollContainerRef.current;
-      if (container) {
-        const handleScroll = () => {
-          scrollPositionRef.current = container.scrollTop;
-        };
-        container.addEventListener("scroll", handleScroll);
-        return () => container.removeEventListener("scroll", handleScroll);
-      }
-    }, []);
-
-    // Restore scroll position after re-render
-    useEffect(() => {
-      const container = scrollContainerRef.current;
-      if (container && scrollPositionRef.current > 0) {
-        container.scrollTop = scrollPositionRef.current;
-      }
-    });
 
     const handleToggle = (index) => {
       const newOpenItems = new Set(openItems);
@@ -804,20 +783,13 @@ const CookieBanner = () => {
       setOpenItems(newOpenItems);
     };
 
-    const categories = useMemo(
-      () =>
-        Object.entries(data).map(([key, value]) => ({
-          key,
-          ...value,
-        })),
-      [data]
-    );
+    const categories = Object.entries(data).map(([key, value]) => ({
+      key,
+      ...value,
+    }));
 
     return (
-      <div
-        ref={scrollContainerRef}
-        className={`${className} cookie-category-scroll`}
-      >
+      <div className={`${className} cookie-category-scroll`}>
         <div className="font-bold !text-lg text-black">{title}</div>
 
         <div className="">
