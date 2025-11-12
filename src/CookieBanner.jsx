@@ -757,6 +757,28 @@ const CookieBanner = () => {
     className = "",
   }) => {
     const [openItems, setOpenItems] = useState(new Set());
+    const scrollContainerRef = useRef(null);
+    const scrollPositionRef = useRef(0);
+
+    // Save scroll position before state updates
+    useEffect(() => {
+      const container = scrollContainerRef.current;
+      if (container) {
+        const handleScroll = () => {
+          scrollPositionRef.current = container.scrollTop;
+        };
+        container.addEventListener("scroll", handleScroll);
+        return () => container.removeEventListener("scroll", handleScroll);
+      }
+    }, []);
+
+    // Restore scroll position after re-render
+    useEffect(() => {
+      const container = scrollContainerRef.current;
+      if (container && scrollPositionRef.current > 0) {
+        container.scrollTop = scrollPositionRef.current;
+      }
+    });
 
     const handleToggle = (index) => {
       const newOpenItems = new Set(openItems);
@@ -781,13 +803,20 @@ const CookieBanner = () => {
       setOpenItems(newOpenItems);
     };
 
-    const categories = Object.entries(data).map(([key, value]) => ({
-      key,
-      ...value,
-    }));
+    const categories = useMemo(
+      () =>
+        Object.entries(data).map(([key, value]) => ({
+          key,
+          ...value,
+        })),
+      [data]
+    );
 
     return (
-      <div className={`${className} cookie-category-scroll`}>
+      <div
+        ref={scrollContainerRef}
+        className={`${className} cookie-category-scroll`}
+      >
         <div className="font-bold !text-lg text-black">{title}</div>
 
         <div className="">
