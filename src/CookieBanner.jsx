@@ -1272,7 +1272,7 @@ const CookieBanner = () => {
                     rel="noopener noreferrer"
                     className="!text-black !underline !opacity-75 !font-semibold hover:!opacity-100"
                   >
-                    Privacy Policy
+                    {t.privacyPolicy}
                   </a>
                   <div className="h-4 border-l border-black opacity-20" />
                   <div
