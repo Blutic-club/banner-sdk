@@ -1,7 +1,7 @@
 // API Configuration
-// export const API_BASE_URL = "http://localhost:8005/cookie-manager/api/v1";
-export const API_BASE_URL =
-  "https://qa-bluetic-cookie.blutic.club:9444/cookie-manager/api/v1";
+export const API_BASE_URL = "http://localhost:8005/cookie-manager/api/v1";
+// export const API_BASE_URL =
+//   "https://qa-bluetic-cookie.blutic.club:9444/cookie-manager/api/v1";
 // export const API_BASE_URL =
 //   "https://preprod-cookie-manager.blutic.club/cookie-manager/api/v1";
 // export const API_BASE_URL =
