@@ -268,7 +268,6 @@ const CookieBanner = () => {
 
   // Handle language change
   const handleLanguageChange = (langCode) => {
-    console.log("Selected language:", langCode);
     setSelectedLanguage(langCode);
     const translatedData = getTranslatedData(langCode);
     if (translatedData) {
@@ -707,19 +706,11 @@ const CookieBanner = () => {
                 onMouseDown={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  console.log(
-                    "Language option clicked:",
-                    LANGUAGE_NAMES[value]
-                  );
                   handleLanguageChange(value);
                 }}
                 onTouchEnd={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  console.log(
-                    "Language option touched:",
-                    LANGUAGE_NAMES[value]
-                  );
                   handleLanguageChange(value);
                 }}
                 className={`px-3 py-2 text-xs cursor-pointer hover:bg-gray-100 transition-colors ${
