@@ -220,11 +220,20 @@ const CookieBanner = () => {
       ...rawBannerData,
       banner: {
         ...rawBannerData.banner,
-        title: translation.translatedData.banner.title || rawBannerData.banner.title,
-        description: translation.translatedData.banner.description || rawBannerData.banner.description,
-        acceptButtonText: translation.translatedData.banner.acceptButtonText || rawBannerData.banner.acceptButtonText,
-        declineButtonText: translation.translatedData.banner.declineButtonText || rawBannerData.banner.declineButtonText,
-        manageButtonText: translation.translatedData.banner.manageButtonText || rawBannerData.banner.manageButtonText,
+        title:
+          translation.translatedData.banner.title || rawBannerData.banner.title,
+        description:
+          translation.translatedData.banner.description ||
+          rawBannerData.banner.description,
+        acceptButtonText:
+          translation.translatedData.banner.acceptButtonText ||
+          rawBannerData.banner.acceptButtonText,
+        declineButtonText:
+          translation.translatedData.banner.declineButtonText ||
+          rawBannerData.banner.declineButtonText,
+        manageButtonText:
+          translation.translatedData.banner.manageButtonText ||
+          rawBannerData.banner.manageButtonText,
       },
       categories: rawBannerData.categories.map((cat) => {
         const translatedCat = translation.translatedData.categories.find(
@@ -1039,6 +1048,7 @@ const CookieBanner = () => {
     <>
       {!isModalOpen && bannerData && !hasSavedPreference && (
         <div
+          key={selectedLanguage}
           className="fixed z-[99999] font-sans bottom-2 left-1/2 transform -translate-x-1/2 w-[90%] shadow-lg md:hidden"
           style={{ backgroundColor: bannerData.backgroundColor }}
         >
@@ -1048,7 +1058,6 @@ const CookieBanner = () => {
                 className="font-semibold !text-lg"
                 style={{ color: bannerData.titleColor }}
               >
-                {console.log("Mobile banner title:", bannerData.title)}
                 {bannerData.title}
               </p>
               <LanguageDropdown />
@@ -1160,6 +1169,7 @@ const CookieBanner = () => {
       )}
       {!isModalOpen && bannerData && !hasSavedPreference && (
         <div
+          key={selectedLanguage}
           className={`max-md:hidden fixed z-[99999] font-sans ${
             bannerData.position.startsWith("bottom")
               ? bannerData.position.includes("overlay")
