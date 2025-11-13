@@ -268,14 +268,12 @@ const CookieBanner = () => {
 
   // Handle language change
   const handleLanguageChange = (langCode) => {
-    console.log("Language changing to:", langCode);
+    console.log("Selected language:", langCode);
     setSelectedLanguage(langCode);
     const translatedData = getTranslatedData(langCode);
-    console.log("Translated data:", translatedData);
     if (translatedData) {
       setBannerData(translatedData.bannerDetails);
       setCookieData(translatedData.cookieData);
-      console.log("Banner data updated:", translatedData.bannerDetails);
     }
     setIsLanguageDropdownOpen(false);
   };
