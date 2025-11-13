@@ -1040,7 +1040,7 @@ const CookieBanner = () => {
               />
             </div>
           </div>
-          <div className="max-md:!flex max-md:!items-center max-md:!gap-x-1 max-md:!whitespace-nowrap max-md:!text-xs max-md:w-full max-md:!justify-center md:hidden">
+          <div className="max-md:!flex max-md:!items-center max-md:!gap-x-1 max-md:!whitespace-nowrap max-md:!text-xs max-md:w-full max-md:!justify-center max-md:mt-1.5 md:hidden">
             <span className="!text-xs"> {t.poweredBy} </span>
             <img
               src="https://bluetic-preprod.s3.ap-south-1.amazonaws.com/blutic-branding.svg"
