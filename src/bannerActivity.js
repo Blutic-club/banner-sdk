@@ -25,6 +25,10 @@ export const Languages = {
   MALAYALAM: "ml",
   MARATHI: "mr",
   TELUGU: "te",
+  BENGALI: "bn",
+  GUJARATI: "gu",
+  SANSKRIT: "sa",
+  ODIA: "or",
 };
 
 export const LANGUAGE_NAMES = {
@@ -35,6 +39,10 @@ export const LANGUAGE_NAMES = {
   [Languages.MALAYALAM]: "മലയാളം",
   [Languages.MARATHI]: "मराठी",
   [Languages.TELUGU]: "తెలుగు",
+  [Languages.BENGALI]: "বাংলা",
+  [Languages.GUJARATI]: "ગુજરાતી",
+  [Languages.SANSKRIT]: "संस्कृतम्",
+  [Languages.ODIA]: "ଓଡ଼ିଆ",
 };
 
 // Google Consent Mode v2 parameter mapping
