@@ -1318,8 +1318,8 @@ const CookieBanner = () => {
                   onClick={() => setIsModalOpen(true)}
                   className="!flex-1 hover:cursor-pointer text-sm font-medium rounded-md border focus:!outline-none"
                   style={{
-                    paddingTop: "14px !important",
-                    paddingBottom: "14px !important",
+                    paddingTop: "17px !important",
+                    paddingBottom: "17px !important",
                     backgroundColor: bannerData.manageButtonColor,
                     color: bannerData.manageButtonTextColor,
                     border:
@@ -1337,8 +1337,8 @@ const CookieBanner = () => {
                   onClick={handleRejectAll}
                   className="!flex-1 hover:cursor-pointer text-sm font-medium rounded-md border focus:!outline-none"
                   style={{
-                    paddingTop: "14px !important",
-                    paddingBottom: "14px !important",
+                    paddingTop: "17px !important",
+                    paddingBottom: "17px !important",
                     backgroundColor: bannerData.declineButtonColor,
                     color: bannerData.declineButtonTextColor,
                     border:
@@ -1357,8 +1357,8 @@ const CookieBanner = () => {
                   onClick={handleAccept}
                   className="!flex-1 hover:cursor-pointer text-sm font-medium rounded-md border-none focus:!outline-none"
                   style={{
-                    paddingTop: "14px !important",
-                    paddingBottom: "14px !important",
+                    paddingTop: "17px !important",
+                    paddingBottom: "17px !important",
                     backgroundColor: bannerData.acceptButtonColor,
                     color: bannerData.acceptButtonTextColor,
                     border:
@@ -1429,8 +1429,8 @@ const CookieBanner = () => {
                   onClick={() => setIsModalOpen(true)}
                   className="flex-1 hover:cursor-pointer !text-sm rounded-md border focus:!outline-none"
                   style={{
-                    paddingTop: "14px !important",
-                    paddingBottom: "14px !important",
+                    paddingTop: "17px !important",
+                    paddingBottom: "17px !important",
                     backgroundColor: bannerData.manageButtonColor,
                     color: bannerData.manageButtonTextColor,
                     border:
@@ -1448,8 +1448,8 @@ const CookieBanner = () => {
                   onClick={handleRejectAll}
                   className="flex-1 hover:cursor-pointer !text-sm rounded-md border focus:!outline-none"
                   style={{
-                    paddingTop: "14px !important",
-                    paddingBottom: "14px !important",
+                    paddingTop: "17px !important",
+                    paddingBottom: "17px !important",
                     backgroundColor: bannerData.declineButtonColor,
                     color: bannerData.declineButtonTextColor,
                     border:
@@ -1468,8 +1468,8 @@ const CookieBanner = () => {
                   onClick={handleAccept}
                   className="flex-1 hover:cursor-pointer !text-sm rounded-md border-none focus:!outline-none"
                   style={{
-                    paddingTop: "14px !important",
-                    paddingBottom: "14px !important",
+                    paddingTop: "17px !important",
+                    paddingBottom: "17px !important",
                     backgroundColor: bannerData.acceptButtonColor,
                     color: bannerData.acceptButtonTextColor,
                     border:
