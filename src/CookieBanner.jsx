@@ -808,6 +808,16 @@ const CookieBanner = () => {
     );
   };
 
+  // const LanguageDropdown = () => {
+  //   return (
+  //     <div className="relative">
+  //       <div className="text-xs border border-gray-300 bg-gray-50 text-gray-800 rounded-md px-3 py-1 flex items-center gap-1 cursor-not-allowed">
+  //         English <ChevronDown size={10} />
+  //       </div>
+  //     </div>
+  //   );
+  // };
+
   const CookieDataItems = React.memo(
     function CookieDataItems({ category, categoryKey, isOpen, onToggle }) {
       return (
@@ -845,7 +855,7 @@ const CookieBanner = () => {
                 <div
                   className={`overflow-hidden transition-all duration-300 ease-in-out bg-[#f0f2f7] w-full ${
                     isOpen
-                      ? "max-h-96 opacity-100 mt-1.5 overscroll-y-auto rounded-lg"
+                      ? "opacity-100 mt-1.5 rounded-lg"
                       : "max-h-0 opacity-0"
                   }`}
                 >
@@ -1318,8 +1328,8 @@ const CookieBanner = () => {
                   onClick={() => setIsModalOpen(true)}
                   className="!flex-1 hover:cursor-pointer text-sm font-medium rounded-md border focus:!outline-none"
                   style={{
-                    paddingTop: "17px",
-                    paddingBottom: "17px",
+                    paddingTop: "11.5px",
+                    paddingBottom: "11.5px",
                     backgroundColor: bannerData.manageButtonColor,
                     color: bannerData.manageButtonTextColor,
                     border:
@@ -1337,8 +1347,8 @@ const CookieBanner = () => {
                   onClick={handleRejectAll}
                   className="!flex-1 hover:cursor-pointer text-sm font-medium rounded-md border focus:!outline-none"
                   style={{
-                    paddingTop: "17px",
-                    paddingBottom: "17px",
+                    paddingTop: "11.5px",
+                    paddingBottom: "11.5px",
                     backgroundColor: bannerData.declineButtonColor,
                     color: bannerData.declineButtonTextColor,
                     border:
@@ -1357,8 +1367,8 @@ const CookieBanner = () => {
                   onClick={handleAccept}
                   className="!flex-1 hover:cursor-pointer text-sm font-medium rounded-md border-none focus:!outline-none"
                   style={{
-                    paddingTop: "17px",
-                    paddingBottom: "17px",
+                    paddingTop: "11.5px",
+                    paddingBottom: "11.5px",
                     backgroundColor: bannerData.acceptButtonColor,
                     color: bannerData.acceptButtonTextColor,
                     border:
@@ -1429,8 +1439,8 @@ const CookieBanner = () => {
                   onClick={() => setIsModalOpen(true)}
                   className="flex-1 hover:cursor-pointer !text-sm rounded-md border focus:!outline-none"
                   style={{
-                    paddingTop: "17px",
-                    paddingBottom: "17px",
+                    paddingTop: "11.5px",
+                    paddingBottom: "11.5px",
                     backgroundColor: bannerData.manageButtonColor,
                     color: bannerData.manageButtonTextColor,
                     border:
@@ -1448,8 +1458,8 @@ const CookieBanner = () => {
                   onClick={handleRejectAll}
                   className="flex-1 hover:cursor-pointer !text-sm rounded-md border focus:!outline-none"
                   style={{
-                    paddingTop: "17px",
-                    paddingBottom: "17px",
+                    paddingTop: "11.5px",
+                    paddingBottom: "11.5px",
                     backgroundColor: bannerData.declineButtonColor,
                     color: bannerData.declineButtonTextColor,
                     border:
@@ -1468,8 +1478,8 @@ const CookieBanner = () => {
                   onClick={handleAccept}
                   className="flex-1 hover:cursor-pointer !text-sm rounded-md border-none focus:!outline-none"
                   style={{
-                    paddingTop: "17px",
-                    paddingBottom: "17px",
+                    paddingTop: "11.5px",
+                    paddingBottom: "11.5px",
                     backgroundColor: bannerData.acceptButtonColor,
                     color: bannerData.acceptButtonTextColor,
                     border:
