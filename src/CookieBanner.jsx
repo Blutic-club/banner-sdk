@@ -760,63 +760,63 @@ const CookieBanner = () => {
     );
   };
 
-  // const LanguageDropdown = () => {
-  //   return (
-  //     <div className="relative" ref={languageDropdownRef}>
-  //       <div
-  //         onClick={(e) => {
-  //           e.stopPropagation();
-  //           setIsLanguageDropdownOpen(!isLanguageDropdownOpen);
-  //         }}
-  //         className="text-xs border border-gray-300 bg-gray-50 text-gray-800 rounded-md px-3 py-1 flex items-center gap-1 cursor-pointer hover:bg-gray-100 transition-colors"
-  //       >
-  //         {LANGUAGE_NAMES[selectedLanguage]} <ChevronDown size={10} />
-  //       </div>
-  //       {isLanguageDropdownOpen && (
-  //         <div
-  //           ref={dropdownRef}
-  //           onClick={(e) => e.stopPropagation()}
-  //           className={`absolute right-0 bg-white border border-gray-300 rounded-md shadow-lg z-[100001] min-w-[120px] max-h-[200px] overflow-y-auto ${
-  //             dropdownPosition === "top" ? "bottom-full mb-1" : "top-full mt-1"
-  //           }`}
-  //         >
-  //           {Object.entries(Languages).map(([, value]) => (
-  //             <div
-  //               key={value}
-  //               onMouseDown={(e) => {
-  //                 e.preventDefault();
-  //                 e.stopPropagation();
-  //                 handleLanguageChange(value);
-  //               }}
-  //               onTouchEnd={(e) => {
-  //                 e.preventDefault();
-  //                 e.stopPropagation();
-  //                 handleLanguageChange(value);
-  //               }}
-  //               className={`px-3 py-2 text-xs cursor-pointer hover:bg-gray-100 transition-colors ${
-  //                 selectedLanguage === value
-  //                   ? "bg-blue-50 text-blue-600"
-  //                   : "text-gray-800"
-  //               }`}
-  //             >
-  //               {LANGUAGE_NAMES[value]}
-  //             </div>
-  //           ))}
-  //         </div>
-  //       )}
-  //     </div>
-  //   );
-  // };
-
   const LanguageDropdown = () => {
     return (
-      <div className="relative">
-        <div className="text-xs border border-gray-300 bg-gray-50 text-gray-800 rounded-md px-3 py-1 flex items-center gap-1 cursor-not-allowed">
-          English <ChevronDown size={10} />
+      <div className="relative" ref={languageDropdownRef}>
+        <div
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsLanguageDropdownOpen(!isLanguageDropdownOpen);
+          }}
+          className="text-xs border border-gray-300 bg-gray-50 text-gray-800 rounded-md px-3 py-1 flex items-center gap-1 cursor-pointer hover:bg-gray-100 transition-colors"
+        >
+          {LANGUAGE_NAMES[selectedLanguage]} <ChevronDown size={10} />
         </div>
+        {isLanguageDropdownOpen && (
+          <div
+            ref={dropdownRef}
+            onClick={(e) => e.stopPropagation()}
+            className={`absolute right-0 bg-white border border-gray-300 rounded-md shadow-lg z-[100001] min-w-[120px] max-h-[200px] overflow-y-auto ${
+              dropdownPosition === "top" ? "bottom-full mb-1" : "top-full mt-1"
+            }`}
+          >
+            {Object.entries(Languages).map(([, value]) => (
+              <div
+                key={value}
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleLanguageChange(value);
+                }}
+                onTouchEnd={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleLanguageChange(value);
+                }}
+                className={`px-3 py-2 text-xs cursor-pointer hover:bg-gray-100 transition-colors ${
+                  selectedLanguage === value
+                    ? "bg-blue-50 text-blue-600"
+                    : "text-gray-800"
+                }`}
+              >
+                {LANGUAGE_NAMES[value]}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     );
   };
+
+  // const LanguageDropdown = () => {
+  //   return (
+  //     <div className="relative">
+  //       <div className="text-xs border border-gray-300 bg-gray-50 text-gray-800 rounded-md px-3 py-1 flex items-center gap-1 cursor-not-allowed">
+  //         English <ChevronDown size={10} />
+  //       </div>
+  //     </div>
+  //   );
+  // };
 
   const CookieDataItems = React.memo(
     function CookieDataItems({ category, categoryKey, isOpen, onToggle }) {
