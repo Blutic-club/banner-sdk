@@ -491,7 +491,21 @@ async function fetchBannerConfig() {
 
   if (result) {
     console.log("Cookie Banner SDK: Banner configuration fetched successfully");
-    return result.data || result;
+    const configData = result.data || result;
+
+    // Cache user preference if it exists in the response
+    if (configData.consent) {
+      const cacheKey = `user_preference_${domainId}`;
+      const preferenceData = {
+        cookieSettings: configData.consent.cookieSettings,
+        browserId: configData.consent.browserId,
+        status: configData.consent.status,
+      };
+      localStorage.setItem(cacheKey, JSON.stringify(preferenceData));
+      console.log("Cookie Banner SDK: Cached user preference from banner config");
+    }
+
+    return configData;
   }
 
   // Return default configuration if API fails
