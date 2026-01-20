@@ -310,25 +310,6 @@ function updateGoogleConsentMode(cookieSettings) {
 
 async function trackConsentActionWithGTM(status, cookieSettings) {
   try {
-    const cacheKey = `user_preference_${domainId}`;
-
-    // Check if preference exists in cache
-    const cachedPreference = localStorage.getItem(cacheKey);
-    if (cachedPreference) {
-      try {
-        const parsedPreference = JSON.parse(cachedPreference);
-        console.log("Cookie Banner SDK: Using cached user preference");
-
-        // Update Google Consent Mode with cached preferences
-        updateGoogleConsentMode(parsedPreference.cookieSettings);
-
-        return parsedPreference;
-      } catch (error) {
-        console.error("Cookie Banner SDK: Error parsing cached preference", error);
-        localStorage.removeItem(cacheKey);
-      }
-    }
-
     const trackingData = {
       cookieSettings,
       browserId,
@@ -370,16 +351,7 @@ async function trackConsentActionWithGTM(status, cookieSettings) {
       console.log("Cookie Banner SDK: Consent action tracked successfully");
       if (!browserId && result.data?.browserId)
         localStorage.setItem("browserId", result.data.browserId);
-
-      // Cache the user preference response
-      const preferenceData = {
-        cookieSettings: result.data?.cookieSettings || cookieSettings,
-        browserId: result.data?.browserId || browserId,
-        status: result.data?.status || status,
-      };
-      localStorage.setItem(cacheKey, JSON.stringify(preferenceData));
-
-      return preferenceData;
+      return;
     }
   } catch (e) {
     console.error("Cookie Banner SDK: Failed to save user preference", e);
@@ -491,21 +463,7 @@ async function fetchBannerConfig() {
 
   if (result) {
     console.log("Cookie Banner SDK: Banner configuration fetched successfully");
-    const configData = result.data || result;
-
-    // Cache user preference if it exists in the response
-    if (configData.consent) {
-      const cacheKey = `user_preference_${domainId}`;
-      const preferenceData = {
-        cookieSettings: configData.consent.cookieSettings,
-        browserId: configData.consent.browserId,
-        status: configData.consent.status,
-      };
-      localStorage.setItem(cacheKey, JSON.stringify(preferenceData));
-      console.log("Cookie Banner SDK: Cached user preference from banner config");
-    }
-
-    return configData;
+    return result.data || result;
   }
 
   // Return default configuration if API fails
