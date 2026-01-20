@@ -1,9 +1,9 @@
 // API Configuration
-// export const API_BASE_URL = "http://localhost:8005/cookie-manager/api/v1";
+export const API_BASE_URL = "http://localhost:8005/cookie-manager/api/v1";
 // export const API_BASE_URL =
 //   "https://qa-bluetic-cookie.blutic.club:9444/cookie-manager/api/v1";
-export const API_BASE_URL =
-  "https://preprod-cookie-manager.blutic.club/cookie-manager/api/v1";
+// export const API_BASE_URL =
+//   "https://preprod-cookie-manager.blutic.club/cookie-manager/api/v1";
 // export const API_BASE_URL =
 //   "https://cookie-management-svc.blutic.club/cookie-manager/api/v1";
 
@@ -267,7 +267,7 @@ function initializeGoogleConsentMode() {
   // Check if gtag is available
   if (typeof window.gtag === "function") {
     console.log(
-      "Cookie Banner SDK: Initializing Google Consent Mode with default denied state"
+      "Cookie Banner SDK: Initializing Google Consent Mode with default denied state",
     );
 
     window.gtag("consent", "default", {
@@ -310,6 +310,25 @@ function updateGoogleConsentMode(cookieSettings) {
 
 async function trackConsentActionWithGTM(status, cookieSettings) {
   try {
+    const cacheKey = `user_preference_${domainId}`;
+
+    // Check if preference exists in cache
+    const cachedPreference = localStorage.getItem(cacheKey);
+    if (cachedPreference) {
+      try {
+        const parsedPreference = JSON.parse(cachedPreference);
+        console.log("Cookie Banner SDK: Using cached user preference");
+
+        // Update Google Consent Mode with cached preferences
+        updateGoogleConsentMode(parsedPreference.cookieSettings);
+
+        return parsedPreference;
+      } catch (error) {
+        console.error("Cookie Banner SDK: Error parsing cached preference", error);
+        localStorage.removeItem(cacheKey);
+      }
+    }
+
     const trackingData = {
       cookieSettings,
       browserId,
@@ -351,7 +370,16 @@ async function trackConsentActionWithGTM(status, cookieSettings) {
       console.log("Cookie Banner SDK: Consent action tracked successfully");
       if (!browserId && result.data?.browserId)
         localStorage.setItem("browserId", result.data.browserId);
-      return;
+
+      // Cache the user preference response
+      const preferenceData = {
+        cookieSettings: result.data?.cookieSettings || cookieSettings,
+        browserId: result.data?.browserId || browserId,
+        status: result.data?.status || status,
+      };
+      localStorage.setItem(cacheKey, JSON.stringify(preferenceData));
+
+      return preferenceData;
     }
   } catch (e) {
     console.error("Cookie Banner SDK: Failed to save user preference", e);
@@ -404,7 +432,7 @@ async function makeApiCall(endpoint, method = "POST", data = null) {
 
     if (!response.ok) {
       throw new Error(
-        `API call failed: ${response.status} ${response.statusText}`
+        `API call failed: ${response.status} ${response.statusText}`,
       );
     }
 
@@ -458,7 +486,7 @@ async function fetchBannerConfig() {
   const result = await makeApiCall(
     `banner/configs`,
     "GET",
-    `browserId=${browserId}`
+    `browserId=${browserId}`,
   );
 
   if (result) {
@@ -539,7 +567,7 @@ function parseBannerApiData(bannerData) {
 
   // Filter out deleted cookies and place each cookie in its category
   const activeCookies = bannerData.cookies.filter(
-    (cookie) => !cookie.isDeleted
+    (cookie) => !cookie.isDeleted,
   );
   for (const cookie of activeCookies) {
     const cat = cookiesByCategory[cookie.category];
