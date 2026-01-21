@@ -275,7 +275,7 @@ const CookieBanner = () => {
 
   const areAllNonNecessaryCookiesRejected = (settings) => {
     return Object.entries(settings).every(
-      ([key, value]) => key === "necessary" || value === false
+      ([key, value]) => key === "necessary" || value === false,
     );
   };
 
@@ -317,7 +317,7 @@ const CookieBanner = () => {
       },
       categories: rawBannerData.categories.map((cat) => {
         const translatedCat = translation.translatedData.categories.find(
-          (tc) => tc._id === cat._id
+          (tc) => tc._id === cat._id,
         );
         return translatedCat
           ? {
@@ -331,7 +331,7 @@ const CookieBanner = () => {
         .filter((cookie) => !cookie.isDeleted)
         .map((cookie) => {
           const translatedCookie = translation.translatedData.cookies.find(
-            (tc) => tc._id === cookie._id
+            (tc) => tc._id === cookie._id,
           );
           return translatedCookie
             ? {
@@ -443,7 +443,7 @@ const CookieBanner = () => {
         Object.keys(categorisedData.cookieData).length === 0
       ) {
         console.log(
-          "Cookie Banner SDK: No cookie data found. Banner will not be displayed."
+          "Cookie Banner SDK: No cookie data found. Banner will not be displayed.",
         );
         setShouldShowBanner(false);
         return;
@@ -462,7 +462,7 @@ const CookieBanner = () => {
         const categoryIdSettings = {};
         if (apiCookieSettings) {
           for (const [categoryId, categoryData] of Object.entries(
-            categorisedData.cookieData
+            categorisedData.cookieData,
           )) {
             const englishName = categoryData.title.toLowerCase();
             if (typeof apiCookieSettings[englishName] === "boolean") {
@@ -473,7 +473,7 @@ const CookieBanner = () => {
 
         // Set initial settings for each category
         for (const [categoryId, categoryData] of Object.entries(
-          categorisedData.cookieData
+          categorisedData.cookieData,
         )) {
           if (categoryData.isAlwaysActive) {
             // Always active categories (like "necessary") must always be true
@@ -517,7 +517,7 @@ const CookieBanner = () => {
     if (!isModalOpen) return;
 
     const scrollContainers = document.querySelectorAll(
-      ".modal-content-scroll, .cookie-category-scroll"
+      ".modal-content-scroll, .cookie-category-scroll",
     );
     if (!scrollContainers) return;
 
@@ -569,14 +569,14 @@ const CookieBanner = () => {
       if (!hasSavedPreference) {
         // First-time decision
         const hasAcceptedNonNecessary = Object.entries(cookieSettings).some(
-          ([key, value]) => key !== "necessary" && value === true
+          ([key, value]) => key !== "necessary" && value === true,
         );
 
         return hasAcceptedNonNecessary ? Consent.ACCEPTED : Consent.REJECTED;
       } else {
         // For existing preferences
         const allNonNecessaryFalse = Object.entries(cookieSettings).every(
-          ([key, value]) => key === "necessary" || value === false
+          ([key, value]) => key === "necessary" || value === false,
         );
 
         return allNonNecessaryFalse ? Consent.WITHDRAWN : Consent.MODIFIED;
@@ -585,7 +585,7 @@ const CookieBanner = () => {
 
     const { acceptedCookies, rejectedCookies } = getCookiesByStatus(
       cookieData,
-      cookieSettings
+      cookieSettings,
     );
 
     const consentModeParams = mapConsentToGoogleConsentMode(cookieSettings);
@@ -640,7 +640,7 @@ const CookieBanner = () => {
 
     const { acceptedCookies, rejectedCookies } = getCookiesByStatus(
       cookieData,
-      rejectedSettings
+      rejectedSettings,
     );
 
     const consentModeParams = mapConsentToGoogleConsentMode(rejectedSettings);
@@ -907,7 +907,7 @@ const CookieBanner = () => {
         cookieSettings[prevProps.categoryKey] ===
           cookieSettings[nextProps.categoryKey]
       );
-    }
+    },
   );
 
   // Main CookieDataDropdown Component
@@ -1181,7 +1181,7 @@ const CookieBanner = () => {
               <div className="h-4 border-l border-black opacity-20" />
               <div
                 onClick={() => {
-                  setActiveTab("about"), setIsModalOpen(true);
+                  (setActiveTab("about"), setIsModalOpen(true));
                 }}
                 className="text-black underline opacity-75 font-semibold hover:opacity-100 hover:cursor-pointer"
               >
@@ -1278,8 +1278,8 @@ const CookieBanner = () => {
                     bannerData.position === "bottom_left" ? "left-4" : "right-4"
                   } bottom-4 max-w-lg rounded-xl shadow-xl overflow-hidden`
               : bannerData.position === "overlay"
-              ? "top-0 w-full shadow-lg left-0"
-              : "top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-lg rounded-xl shadow-xl overflow-hidden"
+                ? "top-0 w-full shadow-lg left-0"
+                : "top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-lg rounded-xl shadow-xl overflow-hidden"
           }`}
           style={{ backgroundColor: bannerData.backgroundColor }}
         >
@@ -1315,7 +1315,7 @@ const CookieBanner = () => {
                 <div className="h-4 border-l border-black opacity-20" />
                 <div
                   onClick={() => {
-                    setActiveTab("about"), setIsModalOpen(true);
+                    (setActiveTab("about"), setIsModalOpen(true));
                   }}
                   className="text-black underline opacity-75 font-semibold hover:opacity-100 hover:cursor-pointer"
                 >
@@ -1425,7 +1425,7 @@ const CookieBanner = () => {
                   <div className="h-4 border-l border-black opacity-20" />
                   <div
                     onClick={() => {
-                      setActiveTab("about"), setIsModalOpen(true);
+                      (setActiveTab("about"), setIsModalOpen(true));
                     }}
                     className="text-black underline opacity-75 font-semibold hover:opacity-100 hover:cursor-pointer"
                   >
