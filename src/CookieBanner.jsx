@@ -1135,6 +1135,7 @@ const CookieBanner = () => {
             <img
               src="https://bluetic-preprod.s3.ap-south-1.amazonaws.com/blutic-branding.svg"
               className="!h-4.5"
+              style={{ width: "auto" }}
             />
           </div>
         </div>
@@ -1510,12 +1511,12 @@ const CookieBanner = () => {
       )}
       {!isModalOpen && hasSavedPreference && (
         <div
-          className="fixed rounded-full hover:cursor-pointer bottom-10 left-10 !z-[99999]"
+          className="fixed rounded-full hover:cursor-pointer max-md:bottom-4 left-4 md:bottom-2 !z-[99999]"
           onClick={() => setIsModalOpen(true)}
         >
           <svg
-            width="96"
-            height="96"
+            width="80"
+            height="80"
             viewBox="0 0 96 96"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
