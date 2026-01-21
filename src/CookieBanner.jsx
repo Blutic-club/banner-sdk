@@ -989,7 +989,7 @@ const CookieBanner = () => {
         {/* Modal Tabs */}
         <div className="relative w-full h-full max-md:pb-5 md:pb-12">
           <div
-            className="text-black !text-sm hover:!cursor-pointer absolute md:top-3 md:right-4 max-md:top-1 max-md:right-1"
+            className="text-black !text-sm hover:!cursor-pointer absolute md:top-3 md:right-4 max-md:top-2.5 max-md:right-2"
             onClick={() => setIsModalOpen(false)}
           >
             x
@@ -1262,7 +1262,7 @@ const CookieBanner = () => {
               </span>
               <img
                 src="https://bluetic-preprod.s3.ap-south-1.amazonaws.com/blutic-branding.svg"
-                style={{ height: "1rem" }}
+                style={{ height: "1rem", width: "auto" }}
               />
             </div>
           </div>
