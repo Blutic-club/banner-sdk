@@ -391,7 +391,7 @@ const CookieBanner = () => {
       const currentInteractionId = localStorage.getItem(
         "cookie_interaction_id",
       );
-      if (!hasInteracted && currentInteractionId) {
+      if (!hasInteracted) {
         trackIgnoredInteraction();
       }
     };
