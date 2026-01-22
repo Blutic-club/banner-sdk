@@ -386,22 +386,22 @@ const CookieBanner = () => {
     const existingInteractionId = generateInteractionId();
     setInteractionId(existingInteractionId);
 
-    // Track ignored interaction on page unload if no interaction occurred
-    const handleBeforeUnload = () => {
-      const currentInteractionId = localStorage.getItem(
-        "cookie_interaction_id",
-      );
-      if (!hasInteracted) {
-        trackIgnoredInteraction();
+    // Track ignored interaction when user leaves the page
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "hidden" && !hasInteracted) {
+        const currentInteractionId = localStorage.getItem("cookie_interaction_id");
+        if (currentInteractionId) {
+          trackIgnoredInteraction();
+        }
       }
     };
 
-    // Add event listener for page unload
-    window.addEventListener("beforeunload", handleBeforeUnload);
+    // Add event listener for visibility change
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     // Cleanup function
     return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, [hasInteracted]);
 
