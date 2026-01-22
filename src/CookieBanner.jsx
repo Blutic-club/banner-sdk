@@ -386,24 +386,21 @@ const CookieBanner = () => {
     const existingInteractionId = generateInteractionId();
     setInteractionId(existingInteractionId);
 
-    // Track ignored interaction when user leaves the page
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === "hidden" && !hasInteracted) {
-        const currentInteractionId = localStorage.getItem("cookie_interaction_id");
-        if (currentInteractionId) {
-          trackIgnoredInteraction();
-        }
+    // Track ignored interaction on page unload if no interaction occurred
+    const handleBeforeUnload = () => {
+      if (!hasInteracted && interactionId) {
+        trackIgnoredInteraction();
       }
     };
 
-    // Add event listener for visibility change
-    document.addEventListener("visibilitychange", handleVisibilityChange);
+    // Add event listener for page unload
+    window.addEventListener("beforeunload", handleBeforeUnload);
 
     // Cleanup function
     return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
     };
-  }, [hasInteracted]);
+  }, [hasInteracted, interactionId]);
 
   useEffect(() => {
     async function init() {
