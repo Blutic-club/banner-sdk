@@ -1149,7 +1149,6 @@ const CookieBanner = () => {
     <>
       {!isModalOpen && bannerData && !hasSavedPreference && (
         <div
-          key={selectedLanguage}
           className="fixed z-[99999] font-sans bottom-2 left-1/2 transform -translate-x-1/2 w-[90%] shadow-lg md:hidden"
           style={{ backgroundColor: bannerData.backgroundColor }}
         >
