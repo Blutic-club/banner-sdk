@@ -162,10 +162,10 @@ git tag -a v1.2.3 -m "tag message describing this version"
 
 ```bash
 # Push commits
-git push blutic <branch-name>
+git push origin <branch-name>
 
 # Push the specific tag
-git push blutic v1.2.3
+git push origin v1.2.3
 ```
 
 ### Step 5: Verify on jsDelivr
