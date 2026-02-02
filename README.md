@@ -193,7 +193,7 @@ https://cdn.jsdelivr.net/gh/<username>/<repo>@v1.2.3/dist/banner-sdk.js
 Add the script tag to your website with your `domainId` parameter:
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/<username>/<repo>@v1.0.0/dist/banner-sdk.js?domainId=your-domain-id"></script>
+<script src="https://cdn.jsdelivr.net/gh/<username>/<repo>@v1.0.0/dist/banner-sdk.js?domainId=your-domain-id" async></script>
 ```
 
 ### Parameters
@@ -208,13 +208,12 @@ Add the script tag to your website with your `domainId` parameter:
 <!DOCTYPE html>
 <html>
   <head>
+    <!-- Cookie Banner SDK -->
+    <script src="https://cdn.jsdelivr.net/gh/yourorg/cookie-banner-sdk@v1.0.0/dist/banner-sdk.js?domainId=abc123" async></script>
     <title>My Website</title>
   </head>
   <body>
     <h1>Welcome to my website</h1>
-
-    <!-- Cookie Banner SDK -->
-    <script src="https://cdn.jsdelivr.net/gh/yourorg/cookie-banner-sdk@v1.0.0/dist/banner-sdk.js?domainId=abc123"></script>
   </body>
 </html>
 ```
