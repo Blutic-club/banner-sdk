@@ -321,10 +321,6 @@ Use clear, descriptive commit messages:
 - `refactor: Simplify consent tracking logic`
 - `docs: Update README with new deployment steps`
 
-## 📝 License
-
-[Add your license information here]
-
 ## 🆘 Support
 
 For issues, questions, or contributions, please [open an issue](link-to-issues) or contact the development team.
