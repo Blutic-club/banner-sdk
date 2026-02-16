@@ -1,11 +1,11 @@
 // API Configuration
-// export const API_BASE_URL = "http://localhost:8005/cookie-manager/api/v1";
+export const API_BASE_URL = "http://localhost:8005/cookie-manager/api/v1";
 // export const API_BASE_URL =
 //   "https://qa-bluetic-cookie.blutic.club:9444/cookie-manager/api/v1";
 // export const API_BASE_URL =
 //   "https://preprod-cookie-manager.blutic.club/cookie-manager/api/v1";
-export const API_BASE_URL =
-  "https://cookie-management-svc.blutic.club/cookie-manager/api/v1";
+// export const API_BASE_URL =
+//   "https://cookie-management-svc.blutic.club/cookie-manager/api/v1";
 
 let browserId = localStorage.getItem("browserId");
 let domainId = localStorage.getItem("domainId");
@@ -497,17 +497,24 @@ async function trackConsentAction(status, cookieSettings) {
 async function initializeCookieBannerSDK() {
   try {
     initializeGoogleConsentMode();
+
+    // Fetch banner configuration first to check script_integrated flag
+    const config = await fetchBannerConfig();
+
     // Check if already initialized in this session
     if (sessionStorage.getItem("cookie_banner_integration_tracked")) {
       console.log("Cookie Banner SDK: Already initialized in this session");
-      return;
+      return config;
     }
 
-    // Track integration
-    await trackIntegration();
-
-    // Fetch banner configuration
-    const config = await fetchBannerConfig();
+    // Track integration only if script_integrated is false
+    if (config && config.script_integrated === false) {
+      await trackIntegration();
+    } else {
+      console.log(
+        "Cookie Banner SDK: Script already integrated, skipping integration tracking",
+      );
+    }
 
     return config;
   } catch (error) {
