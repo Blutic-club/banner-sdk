@@ -162,10 +162,10 @@ git tag -a v1.2.3 -m "tag message describing this version"
 
 ```bash
 # Push commits
-git push blutic <branch-name>
+git push origin <branch-name>
 
 # Push the specific tag
-git push blutic v1.2.3
+git push origin v1.2.3
 ```
 
 ### Step 5: Verify on jsDelivr
@@ -193,7 +193,7 @@ https://cdn.jsdelivr.net/gh/<username>/<repo>@v1.2.3/dist/banner-sdk.js
 Add the script tag to your website with your `domainId` parameter:
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/<username>/<repo>@v1.0.0/dist/banner-sdk.js?domainId=your-domain-id"></script>
+<script src="https://cdn.jsdelivr.net/gh/<username>/<repo>@v1.0.0/dist/banner-sdk.js?domainId=your-domain-id" async></script>
 ```
 
 ### Parameters
@@ -208,13 +208,12 @@ Add the script tag to your website with your `domainId` parameter:
 <!DOCTYPE html>
 <html>
   <head>
+    <!-- Cookie Banner SDK -->
+    <script src="https://cdn.jsdelivr.net/gh/yourorg/cookie-banner-sdk@v1.0.0/dist/banner-sdk.js?domainId=abc123" async></script>
     <title>My Website</title>
   </head>
   <body>
     <h1>Welcome to my website</h1>
-
-    <!-- Cookie Banner SDK -->
-    <script src="https://cdn.jsdelivr.net/gh/yourorg/cookie-banner-sdk@v1.0.0/dist/banner-sdk.js?domainId=abc123"></script>
   </body>
 </html>
 ```
@@ -321,10 +320,6 @@ Use clear, descriptive commit messages:
 - `fix: Resolve banner position issue on mobile`
 - `refactor: Simplify consent tracking logic`
 - `docs: Update README with new deployment steps`
-
-## 📝 License
-
-[Add your license information here]
 
 ## 🆘 Support
 
