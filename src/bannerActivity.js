@@ -507,8 +507,8 @@ async function initializeCookieBannerSDK() {
       return config;
     }
 
-    // Track integration only if script_integrated is false
-    if (config && config.script_integrated === false) {
+    // Track integration if script_integrated is false or not present
+    if (config && config.script_integrated !== true) {
       await trackIntegration();
     } else {
       console.log(
