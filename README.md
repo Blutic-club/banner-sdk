@@ -42,7 +42,6 @@ cookie-banner-sdk/
 ├── eslint.config.js          # ESLint configuration
 ├── package.json              # Dependencies and scripts
 ├── index.html                # Development preview page
-├── CLAUDE.md                 # AI assistant instructions
 └── README.md                 # This file
 ```
 
