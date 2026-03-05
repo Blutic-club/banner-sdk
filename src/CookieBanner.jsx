@@ -400,7 +400,7 @@ const CookieBanner = () => {
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
-  }, [hasInteracted, interactionId]);
+  }, [interactionId]);
 
   useEffect(() => {
     async function init() {
