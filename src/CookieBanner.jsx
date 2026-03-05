@@ -388,7 +388,7 @@ const CookieBanner = () => {
 
     // Track ignored interaction on page unload if no interaction occurred
     const handleBeforeUnload = () => {
-      if (!localStorage.getItem("browserId") && interactionId) {
+      if (!hasInteracted && interactionId) {
         trackIgnoredInteraction();
       }
     };
@@ -400,7 +400,7 @@ const CookieBanner = () => {
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
-  }, [interactionId]);
+  }, [interactionId, hasInteracted]);
 
   useEffect(() => {
     async function init() {
