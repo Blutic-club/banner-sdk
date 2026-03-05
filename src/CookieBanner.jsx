@@ -388,7 +388,7 @@ const CookieBanner = () => {
 
     // Track ignored interaction on page unload if no interaction occurred
     const handleBeforeUnload = () => {
-      if (!hasInteracted && interactionId) {
+      if (interactionId) {
         trackIgnoredInteraction();
       }
     };
