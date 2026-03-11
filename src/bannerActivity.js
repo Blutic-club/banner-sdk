@@ -418,9 +418,20 @@ async function makeApiCall(endpoint, method = "POST", data = null) {
 // 1. API call for first-time integration tracking
 async function trackIntegration() {
   console.log("Cookie Banner SDK: Tracking integration...");
-  const result = await makeApiCall("banner/integration", "PATCH", {
-    status: true,
-  });
+
+  const data = { status: true };
+  const scripts = document.getElementsByTagName("script");
+  for (let script of scripts) {
+    if (script.src && script.src.includes("banner-sdk")) {
+      const plugin = new URL(script.src).searchParams.get("plugin");
+      if (plugin && plugin.trim()) {
+        data.plugin = plugin.trim();
+      }
+      break;
+    }
+  }
+
+  const result = await makeApiCall("banner/integration", "PATCH", data);
 
   if (result) {
     console.log("Cookie Banner SDK: Integration tracked successfully");
